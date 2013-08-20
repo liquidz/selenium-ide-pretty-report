@@ -1,0 +1,2 @@
+content si_prettyreport content/
+overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://si_prettyreport/content/core.xul

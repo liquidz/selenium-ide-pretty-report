@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#" xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <Description about="urn:mozilla:install-manifest">
+        <em:id>si_prettyreport@liquidz.uo</em:id>
+        <em:type>2</em:type>
+        <em:name>Selenium IDE: Pretty Report</em:name>
+        <em:version>0.1</em:version>
+        <em:description>Selenium IDE plugin to save test case/test suite results as a pretty HTML report.</em:description>
+        <em:creator>Masashi Iizuka</em:creator>
+        <em:homepageURL>http://www.xuldev.org/helloworld/</em:homepageURL>
+
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>3.5</em:minVersion>
+                <em:maxVersion>17.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+    </Description>
+</RDF>
