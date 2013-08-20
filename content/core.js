@@ -7,14 +7,15 @@
         var title = window.editor.app.getTestCase().getTitle();
 
         alert(
-            IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
-                if(testcase['type'] === 'comment'){
-                    return(testcase['value']);
-                } else {
-                    var text = testcase['command'] + ":" + testcase['target'] + ":" + testcase['value'] + ":" + testcase['result'];
-                    return(text);
-                }
-            }).join("\n")
+            SIPR.formatter.html("foo")
+            //IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
+            //    if(testcase['type'] === 'comment'){
+            //        return(testcase['value']);
+            //    } else {
+            //        var text = testcase['command'] + ":" + testcase['target'] + ":" + testcase['value'] + ":" + testcase['result'];
+            //        return(text);
+            //    }
+            //}).join("\n")
         );
     };
 
