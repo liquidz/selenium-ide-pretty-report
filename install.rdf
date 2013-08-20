@@ -7,7 +7,7 @@
         <em:version>0.1</em:version>
         <em:description>Selenium IDE plugin to save test case/test suite results as a pretty HTML report.</em:description>
         <em:creator>Masashi Iizuka</em:creator>
-        <em:homepageURL>http://www.xuldev.org/helloworld/</em:homepageURL>
+        <em:homepageURL>https://github.com/liquidz/selenium-ide-pretty-report</em:homepageURL>
 
         <em:targetApplication>
             <Description>
