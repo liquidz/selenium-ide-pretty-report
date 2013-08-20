@@ -3,17 +3,23 @@
     <script type="application/x-javascript" src="chrome://selenium-ide/content/formats/html.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/lib/mustache.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/ide_util.js" />
-
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/core.js" />
+    <!--
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/formats/templates.js" />
+    -->
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/formats/formatter.js" />
 
     <menupopup id="file-popup">
         <menuseparator id="si_prettyreport_separator" insertbefore="closeMenuSeparator"/>
+        <menuitem id="si_prettyreport_sample"
+                  label="SAMPLE!!"
+                  insertbefore="closeMenuSeparator"
+                  oncommand="window.SIPR.foo()" />
+
         <menuitem id="si_prettyreport_export_test_case_results"
                   label="Export pretty test case results..."
                   insertbefore="closeMenuSeparator"
-                  oncommand="window.SIPR.foo()" />
+                  oncommand="window.SIPR.exportTestCaseResults()" />
     </menupopup>
 
 </overlay>
