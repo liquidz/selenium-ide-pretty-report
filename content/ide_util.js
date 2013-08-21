@@ -50,7 +50,7 @@
         } else {
             res = _parseCommand(src);
         }
-        res.result = cmd.result;
+        res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
 
         return(res);
     };
@@ -60,6 +60,10 @@
         return(file.commands.reduce(function(res, cmd){
             return(res.concat(cmd));
         }, []));
+    };
+
+    self.getTestCaseTitle = function(){
+        return(window.editor.app.getTestCase().getTitle());
     };
 
     if(!window.IDE_UTIL){

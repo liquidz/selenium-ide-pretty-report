@@ -4,10 +4,16 @@
     self.title = "Selenium IDE: Pretty Report";
 
     self.foo = function(){
-        var title = window.editor.app.getTestCase().getTitle();
+        //var title = window.editor.app.getTestCase().getTitle();
+
+        var data  = {
+            title:    IDE_UTIL.getTestCaseTitle()
+          , commands: IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase)
+        };
 
         alert(
-            SIPR.formatter.html("foo")
+            SIPR.formatter.command_table(data)
+            //SIPR.formatter.html("foo")
             //IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
             //    if(testcase['type'] === 'comment'){
             //        return(testcase['value']);

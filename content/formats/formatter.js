@@ -5,9 +5,11 @@
       , command_table: ""
             + "<table><caption>{{title}}</caption>"
             + "<thead><tr><th>command</th><th>target</th><th>value</th></tr></thead>"
-            + "<tbody>{{{hoge}}}</tbody></table>"
-      , command_tbody: ""
-            + 
+            + "<tbody>"
+            + "{{#commands}}"
+            + "  <tr class=\"{{result}}\"><td>{{command}}</td><td>{{target}}</td><td>{{value}}</td></tr>"
+            + "{{/commands}}"
+            + "</tbody></table>"
     };
 
     var self = {};
@@ -16,7 +18,9 @@
         return(Mustache.render(template.html, {body: body}));
     }
 
-    self.command_table = function()
+    self.command_table = function(data){
+        return(Mustache.render(template.command_table, data));
+    };
 
     if(!window.SIPR.formatter){
         window.SIPR.formatter = self;
