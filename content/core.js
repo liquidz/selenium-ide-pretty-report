@@ -38,7 +38,7 @@
         var data = _group_testcases(IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase));
 
         alert(
-            data.map(SIPR.formatter.command_table).reduce(function(res, x){ return(res + x); }, "")
+            data.map(SIPR.formatter.testcase).reduce(function(res, x){ return(res + x); }, "")
             //SIPR.formatter.command_table(data)
             //SIPR.formatter.html("foo")
             //IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
