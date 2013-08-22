@@ -3,16 +3,43 @@
 
     self.title = "Selenium IDE: Pretty Report";
 
-    self.foo = function(){
-        //var title = window.editor.app.getTestCase().getTitle();
+    var _andResult = function(r1, r2){
+        if(r1 === 'undefined' || r1 === 'failed'){ return(r1); }
+        else { return(r2); }
+    };
 
-        var data  = {
-            title:    IDE_UTIL.getTestCaseTitle()
-          , commands: IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase)
-        };
+    var _group_testcases = function(testcases){
+        var tmp    = {title: '', result: true, commands: []}
+          , result = []
+          ;
+
+        testcases.forEach(function(cmd){
+            if(cmd['type'] === 'comment'){
+                // test title
+                if(tmp['commands'].length === 0){
+                    tmp['title'] = cmd['value'];
+                } else {
+                    result.push(tmp);
+                    tmp = {title: cmd['value'], result: true, commands: []};
+                }
+            } else {
+                // command
+                //tmp['result'] = tmp['result'] && cmd['result'];
+                tmp['result'] = _andResult(tmp['result'], cmd['result']);
+                tmp['commands'].push(cmd);
+            }
+        });
+        if(tmp['commands'].length !== 0){ result.push(tmp); }
+
+        return(result);
+    };
+
+    self.foo = function(){
+        var data = _group_testcases(IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase));
 
         alert(
-            SIPR.formatter.command_table(data)
+            data.map(SIPR.formatter.command_table).reduce(function(res, x){ return(res + x); }, "")
+            //SIPR.formatter.command_table(data)
             //SIPR.formatter.html("foo")
             //IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
             //    if(testcase['type'] === 'comment'){
