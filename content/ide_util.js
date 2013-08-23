@@ -55,7 +55,7 @@
         return(res);
     };
 
-    self.getTestCases = function(){
+    self.getTestCase = function(){
         var file = window.editor.app.getTestCase();
         return(file.commands.reduce(function(res, cmd){
             return(res.concat(cmd));

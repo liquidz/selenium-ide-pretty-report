@@ -4,16 +4,16 @@
     self.title = "Selenium IDE: Pretty Report";
 
     var _andResult = function(r1, r2){
-        if(r1 === 'undefined' || r1 === 'failed'){ return(r1); }
+      if(r1 === 'undefined' || r1 === 'failed'){ return(r1); }
         else { return(r2); }
     };
 
-    var _group_testcases = function(testcases){
+    var _group_testcase = function(testcase){
         var tmp    = {title: '', result: true, commands: []}
           , result = []
           ;
 
-        testcases.forEach(function(cmd){
+        testcase.forEach(function(cmd){
             if(cmd['type'] === 'comment'){
                 // test title
                 if(tmp['commands'].length === 0){
@@ -24,7 +24,6 @@
                 }
             } else {
                 // command
-                //tmp['result'] = tmp['result'] && cmd['result'];
                 tmp['result'] = _andResult(tmp['result'], cmd['result']);
                 tmp['commands'].push(cmd);
             }
@@ -35,29 +34,33 @@
     };
 
     self.foo = function(){
-        var data = _group_testcases(IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase));
+        var data = {
+            title: IDE_UTIL.getTestCaseTitle()
+          , tests: _group_testcase(IDE_UTIL.getTestCase().map(IDE_UTIL.parseTestCase))
+        };
 
         alert(
-            data.map(SIPR.formatter.testcase).reduce(function(res, x){ return(res + x); }, "")
-            //SIPR.formatter.command_table(data)
+            SIPR.formatter.testcase(data)
             //SIPR.formatter.html("foo")
-            //IDE_UTIL.getTestCases().map(IDE_UTIL.parseTestCase).map(function(testcase){
-            //    if(testcase['type'] === 'comment'){
-            //        return(testcase['value']);
-            //    } else {
-            //        var text = testcase['command'] + ":" + testcase['target'] + ":" + testcase['value'] + ":" + testcase['result'];
-            //        return(text);
-            //    }
-            //}).join("\n")
         );
     };
 
     self.exportTestCaseResults = function(){
         var file     = IDE_UTIL.openFileDialog("title")
-          , contents = ""
+          , title    = IDE_UTIL.getTestCaseTitle()
+          , data     = { title: title
+                       , tests: _group_testcase(IDE_UTIL.getTestCase().map(IDE_UTIL.parseTestCase))}
           ;
 
-        IDE_UTIL.writeFile(file, contents);
+        IDE_UTIL.writeFile(
+            file
+          //, SIPR.formatter.testcase(data)
+          , SIPR.formatter.html({
+                title: title + " - " + self.title
+              , body:  SIPR.formatter.testcase(data)
+            })
+        );
+    //    //IDE_UTIL.writeFile(file, contents);
     };
 
     if(!window.SIPR){

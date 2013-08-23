@@ -8,27 +8,33 @@
             + '</head><body>{{{body}}}</body></html>'
       , testcase: ''
             + '<div class="testcase">'
-            + '  <table class="{{result}}"><caption>{{title}}</caption>'
-            + '  <thead><tr><th>command</th><th>target</th><th>value</th></tr></thead>'
-            + '  <tbody>'
-            + '  {{#commands}}'
-            + '    <tr class="{{result}}">'
-            + '      <td>{{command}}</td><td>{{target}}</td><td>{{value}}</td>'
-            + '    </tr>'
-            + '  {{/commands}}'
-            + '  </tbody></table>'
+            + '  <p class="testcase-name">{{title}}</p>'
+            + '  {{#tests}}'
+            + '    <table class="testcase-commands {{result}}"><caption>{{title}}</caption>'
+            + '    <thead><tr><th>command</th><th>target</th><th>value</th></tr></thead>'
+            + '    <tbody>'
+            + '    {{#commands}}'
+            + '      <tr class="{{result}}">'
+            + '        <td class="testcase-command">{{command}}</td>'
+            + '        <td class="testcase-target">{{target}}</td>'
+            + '        <td class="testcase-value">{{value}}</td>'
+            + '      </tr>'
+            + '    {{/commands}}'
+            + '    </tbody></table>'
+            + '  {{/tests}}'
             + '</div>'
     };
 
     var self = {};
 
-    self.html = function(title, body){
-        return(Mustache.render(template.html, {title: title, body: body}));
+    self.html = function(data){
+        return(Mustache.render(template.html, data));
     }
 
     self.testcase = function(data){
         return(Mustache.render(template.testcase, data));
     };
+
 
     if(!window.SIPR.formatter){
         window.SIPR.formatter = self;
