@@ -50,7 +50,8 @@
         } else {
             res = _parseCommand(src);
         }
-        res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
+        res.result  = (cmd.result !== undefined) ? cmd.result : "undefined";
+        res.is_done = (res.result === "done");
 
         return(res);
     };

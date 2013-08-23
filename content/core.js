@@ -9,7 +9,7 @@
     };
 
     var _group_testcase = function(testcase){
-        var tmp    = {title: '', result: true, commands: []}
+        var tmp    = {title: '(no title)', result: 'done', is_done: true, commands: []}
           , result = []
           ;
 
@@ -24,7 +24,8 @@
                 }
             } else {
                 // command
-                tmp['result'] = _andResult(tmp['result'], cmd['result']);
+                tmp['result']  = _andResult(tmp['result'], cmd['result']);
+                tmp['is_done'] = tmp['is_done'] && cmd['is_done'];
                 tmp['commands'].push(cmd);
             }
         });
