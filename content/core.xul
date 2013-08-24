@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <overlay id="si_prettyreport_overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="application/x-javascript" src="chrome://selenium-ide/content/formats/html.js" />
-    <script type="application/x-javascript" src="chrome://si_prettyreport/content/lib/underscore/underscore-min.js" />
+    <script type="application/x-javascript" src="chrome://si_prettyreport/content/lib/underscore-min.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/ide_util.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/core.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/formats/formatter.js" />

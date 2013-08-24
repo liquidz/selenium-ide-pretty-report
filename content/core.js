@@ -7,7 +7,7 @@
         return((r1 === 'undefined' || r1 === 'failed') ? r1 : r2);
     };
 
-    var foo_result = function(commands){
+    var get_commands_total_result = function(commands){
         if(_.every(commands, _.partial(result_equals, 'done'))){
             return('done');
         } else if(_.every(commands, _.partial(result_equals, 'undefined'))){
@@ -29,16 +29,19 @@
                 if(tmp.commands.length === 0){
                     tmp.title = cmd.value;
                 } else {
-                    tmp.result = foo_result(tmp.commands);
                     result.push(tmp);
                     tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
                 }
             } else {
-                //tmp['result'] = and_result(tmp['result'], cmd['result']);
                 tmp.commands.push(cmd);
             }
         });
         if(tmp.commands.length !== 0){ result.push(tmp); }
+
+        // add result
+        result = _.map(result, function(test){
+            return(_.extend(test, { result: get_commands_total_result(test.commands) }));
+        });
 
         return(result);
     };
@@ -65,10 +68,10 @@
           , title    = IDE_UTIL.getTestCaseTitle()
           , tests    = _.map(IDE_UTIL.getTestCase(), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
-          , data     = { title: title
-                       , result: _.reduce(commands, function(res, x){ return(and_result(res, x.result)); }, 'done')
-                       , tests: group_testcase(tests)
-                       , count: {
+          , data     = { title:  title
+                       , result: get_commands_total_result(commands)
+                       , tests:  group_testcase(tests)
+                       , count:  {
                            total:     commands.length
                          , done:      _.filter(commands, _.partial(result_equals, 'done')).length
                          , failed:    _.filter(commands, _.partial(result_equals, 'failed')).length
@@ -84,7 +87,6 @@
               , body:  SIPR.formatter.testcase(data)
             })
         );
-    //    //IDE_UTIL.writeFile(file, contents);
     };
 
     if(!window.SIPR){
