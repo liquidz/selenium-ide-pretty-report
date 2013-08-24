@@ -1,2 +1,3 @@
 content si_prettyreport content/
+resource si_prettyreport resource/
 overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://si_prettyreport/content/core.xul

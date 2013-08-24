@@ -1,7 +1,9 @@
 (function(window, undefined){
     var self = {};
 
-    self.title = "Selenium IDE: Pretty Report";
+    self.title    = "Selenium IDE: Pretty Report";
+    self.css_file = "resource://si_prettyreport/main.css";
+    self.js_file  = "resource://si_prettyreport/main.js";
 
     var and_result = function(r1, r2){
         return((r1 === 'undefined' || r1 === 'failed') ? r1 : r2);
@@ -51,15 +53,19 @@
     };
 
     self.foo = function(){
-        var data = {
-            title: IDE_UTIL.getTestCaseTitle()
-          , tests: group_testcase(IDE_UTIL.getTestCase().map(IDE_UTIL.parseTestCase))
-        };
+        //var contents = ADDON_UTIL.file_read("chrome://si_prettyreport/content/core.xul");
+        var contents = ADDON_UTIL.read_file("resource://si_prettyreport/main.js");
+        alert(contents);
 
-        alert(
-            SIPR.formatter.testcase(data)
-            //SIPR.formatter.html("foo")
-        );
+        //var data = {
+        //    title: IDE_UTIL.getTestCaseTitle()
+        //  , tests: group_testcase(IDE_UTIL.getTestCase().map(IDE_UTIL.parseTestCase))
+        //};
+
+        //alert(
+        //    SIPR.formatter.testcase(data)
+        //    //SIPR.formatter.html("foo")
+        //);
     };
 
 
@@ -83,8 +89,10 @@
         IDE_UTIL.writeFile(
             file
           , SIPR.formatter.html({
-                title: title + " - " + self.title
-              , body:  SIPR.formatter.testcase(data)
+                title:  title + " - " + self.title
+              , style:  ADDON_UTIL.read_file(self.css_file)
+              , script: ADDON_UTIL.read_file(self.js_file)
+              , body:   SIPR.formatter.testcase(data)
             })
         );
     };
