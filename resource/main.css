@@ -1,0 +1,65 @@
+body {
+    color: #012D3D;
+    background: #F9FCFC;
+}
+
+div.content {
+    margin: 0 auto;
+    width: 70%;
+}
+
+a { color: #04c; }
+h3.done      { color: #38AD9E; }
+h3.failed    { color: #FF6867; }
+h3.undefined { color: #012D3D; }
+
+div.block { padding-left: 2em; }
+
+div.summary { }
+
+div.summary th, table.testcase-commands th { font-size: 80%; }
+div.summary td { text-align: center; }
+
+
+
+/* test case */
+
+div.command-group > p { cursor: pointer; }
+
+.done > p > i                     { color: #38AD9E; }
+.done > .testcase-result > i      { color: #38AD9E; }
+.failed > p > i                   { color: #FF6867; }
+.failed > .testcase-result > i    { color: #FF6867; }
+.undefined > p > i                { color: #012D3D; }
+.undefined > .testcase-result > i { color: #012D3D; }
+
+/* test case result */
+div.testcase p.done      {}
+div.testcase p.failed    {}
+div.testcase p.undefined {}
+
+/* test case commands */
+div.testcase p table tbody tr.done     {}
+div.testcase p table tbody tr.failed   {}
+div.testcase p table tbody tr.undefine {}
+
+div.testcase p table thead tr td.testcase-result  {}
+div.testcase p table thead tr td.testcase-command {}
+div.testcase p table thead tr td.testcase-target  {}
+div.testcase p table thead tr td.testcase-value   {}
+
+div.testcase p table tbody tr td.testcase-result  {}
+div.testcase p table tbody tr td.testcase-command {}
+div.testcase p table tbody tr td.testcase-target  {}
+div.testcase p table tbody tr td.testcase-value   {}
+
+div.testcase ul li table tbody tr.done td.testcase-result      {}
+div.testcase ul li table tbody tr.failed td.testcase-result    {}
+div.testcase ul li table tbody tr.undefined td.testcase-result {}
+
+
+div.footer {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 80%;
+}

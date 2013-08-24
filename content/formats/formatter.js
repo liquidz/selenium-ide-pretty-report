@@ -6,7 +6,7 @@
           , '  <meta charset="UTF-8" />'
           , '  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css" />'
           , '  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />'
-          , '  <link rel="stylesheet" type="text/css" href="./main.css" />'
+          , '  <link rel="stylesheet" type="text/css" href="chrome://si_prettyreport/content/resource/main.css" />'
           , '  <title><%= title %></title>'
           , '</head><body>'
             // Content
@@ -25,7 +25,7 @@
           , '  </div>'
             // Scripts
           , '  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>'
-          , '  <script type="text/javascript" src="./main.js"></script>'
+          , '  <script type="text/javascript" src="chrome://si_prettyreport/content/resource/main.js"></script>'
           , '</body></html>'
           ].join("\n"))
 
