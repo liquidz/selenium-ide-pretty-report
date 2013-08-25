@@ -41,6 +41,12 @@
         return("err2:" + src);
     };
 
+    self.collectTestCaseCommands = function(testcase){
+        return(testcase.commands.reduce(function(res, cmd){
+            return(res.concat(cmd));
+        }, []));
+    };
+
     self.parseTestCase = function(cmd){
         var src = getSourceForCommand(cmd)
           , res = null
@@ -50,20 +56,38 @@
         } else {
             res = _parseCommand(src);
         }
-        res.result       = (cmd.result !== undefined) ? cmd.result : "undefined";
+        res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
 
         return(res);
     };
 
     self.getTestCase = function(){
-        var file = window.editor.app.getTestCase();
-        return(file.commands.reduce(function(res, cmd){
-            return(res.concat(cmd));
-        }, []));
+        return(window.editor.app.getTestCase());
     };
 
-    self.getTestCaseTitle = function(){
-        return(window.editor.app.getTestCase().getTitle());
+    self.getTestCaseTitle = function(testcase){
+        if(testcase === undefined){
+            testcase = window.editor.app.getTestCase();
+        }
+        return(testcase.getTitle());
+    };
+
+    self.getTestSuite = function(){
+        var app   = window.editor.app
+          , suite = app.getTestSuite()
+          ;
+
+        return(suite.tests.map(function(test){
+            if(!test.content){
+                var t = app.getCurrentFormat().loadFile(test.getFile(), false);
+                test.content = t;
+            }
+            test.content.commands = test.content.commands.map(function(x){
+                x.result = (x.result === undefined) ? 'undefined' : x.result;
+                return(x);
+            });
+            return(test);
+        }));
     };
 
     if(!window.IDE_UTIL){

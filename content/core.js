@@ -53,46 +53,77 @@
     };
 
     self.foo = function(){
-        //var contents = ADDON_UTIL.file_read("chrome://si_prettyreport/content/core.xul");
-        var contents = ADDON_UTIL.read_file("resource://si_prettyreport/main.js");
-        alert(contents);
-
-        //var data = {
-        //    title: IDE_UTIL.getTestCaseTitle()
-        //  , tests: group_testcase(IDE_UTIL.getTestCase().map(IDE_UTIL.parseTestCase))
-        //};
-
-        //alert(
-        //    SIPR.formatter.testcase(data)
-        //    //SIPR.formatter.html("foo")
-        //);
+        var suite = window.editor.app.getTestSuite();
+        _.each(suite.tests, function(test){
+            alert(test.getTitle());
+        });
     };
 
-
-    self.exportTestCaseResults = function(){
-        var file     = IDE_UTIL.openFileDialog("title")
-          , title    = IDE_UTIL.getTestCaseTitle()
-          , tests    = _.map(IDE_UTIL.getTestCase(), IDE_UTIL.parseTestCase)
+    var getTestCaseResultContent = function(testcase, does_show_summary){
+        var title    = IDE_UTIL.getTestCaseTitle(testcase)
+          , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
           , data     = { title:  title
                        , result: get_commands_total_result(commands)
                        , tests:  group_testcase(tests)
+                       , does_show_summary: (does_show_summary === undefined) ? true : false
                        , count:  {
                            total:     commands.length
                          , done:      _.filter(commands, _.partial(result_equals, 'done')).length
                          , failed:    _.filter(commands, _.partial(result_equals, 'failed')).length
                          , undefined: _.filter(commands, _.partial(result_equals, 'undefined')).length
+                         }
                        }
-          }
           ;
 
+        return(SIPR.formatter.testcase(data));
+    };
+
+    self.exportTestCaseResults = function(){
         IDE_UTIL.writeFile(
-            file
+            IDE_UTIL.openFileDialog("title")
           , SIPR.formatter.html({
-                title:  title + " - " + self.title
+                title:  self.title
               , style:  ADDON_UTIL.read_file(self.css_file)
               , script: ADDON_UTIL.read_file(self.js_file)
-              , body:   SIPR.formatter.testcase(data)
+              , body:   getTestCaseResultContent(IDE_UTIL.getTestCase())
+            })
+        );
+    };
+
+    self.exportTestSuiteResult = function(){
+        var suite    = IDE_UTIL.getTestSuite()
+          , contents = _.map(suite, function(test){ return(getTestCaseResultContent(test.content, false)); })
+          , data     = { suite: contents
+                       , result: 'foo'
+                       , count: {
+                           totla: 0
+                         , done: 0
+                         , failed: 0
+                         , undefined: 0
+                         }
+                       }
+          ;
+
+        var commands = _.chain(suite).reduce(function(res, test){
+            return(res.concat(test.content.commands));
+        }, []).filter(function(x){ return(x.type === 'command'); }).value();
+
+        data.result = get_commands_total_result(commands);
+        data.count = {
+            total: commands.length
+          , done:  _.filter(commands, _.partial(result_equals, 'done')).length
+          , failed:  _.filter(commands, _.partial(result_equals, 'failed')).length
+          , undefined:  _.filter(commands, _.partial(result_equals, 'undefined')).length
+        };
+
+        IDE_UTIL.writeFile(
+            IDE_UTIL.openFileDialog("title")
+          , SIPR.formatter.html({
+                title: self.title
+              , style:  ADDON_UTIL.read_file(self.css_file)
+              , script: ADDON_UTIL.read_file(self.js_file)
+              , body:   SIPR.formatter.testsuite(data)
             })
         );
     };

@@ -5,9 +5,10 @@
     }
 
     var template = {
-        html:     _.template(tpl_file('html5.html'))
-      , testcase: _.template(tpl_file('testcase.html'))
-      , now:      _.template(tpl_file('now.html'))
+        html:      _.template(tpl_file('html5.html'))
+      , testcase:  _.template(tpl_file('testcase.html'))
+      , testsuite: _.template(tpl_file('testsuite.html'))
+      , now:       _.template(tpl_file('now.html'))
     };
 
     var self = {};
@@ -38,6 +39,11 @@
     self.testcase = function(data){
         data.now = _getCurrentTime();
         return(template.testcase(data));
+    };
+
+    self.testsuite = function(data){
+        data.now = _getCurrentTime();
+        return(template.testsuite(data));
     };
 
 

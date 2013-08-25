@@ -1,7 +1,8 @@
 <div class="testcase">
+    <% if(does_show_summary){ %>
     <!-- summary -->
     <div class="summary">
-        <h2>Summary</h2>
+        <h2>Test Case Summary</h2>
         <div class="block">
             <h3 class="<%= result %>">
             <% if(result === "done"){ %>
@@ -30,6 +31,7 @@
         </div>
     </div>
     <!-- /summary -->
+    <% } %>
 
     <h2 class="testcase-name"><%= title %></h2>
     <div class="block">
