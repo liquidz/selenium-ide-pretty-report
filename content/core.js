@@ -5,21 +5,17 @@
     self.css_file = "resource://si_prettyreport/main.css";
     self.js_file  = "resource://si_prettyreport/main.js";
 
-    var and_result = function(r1, r2){
-        return((r1 === 'undefined' || r1 === 'failed') ? r1 : r2);
-    };
-
-    var get_commands_total_result = function(commands){
-        if(_.every(commands, _.partial(result_equals, 'done'))){
+    var getCommandsTotalResult = function(commands){
+        if(_.every(commands, _.partial(resultEquals, 'done'))){
             return('done');
-        } else if(_.every(commands, _.partial(result_equals, 'undefined'))){
+        } else if(_.every(commands, _.partial(resultEquals, 'undefined'))){
             return('undefined');
         } else {
             return('failed');
         }
     };
 
-    var group_testcase = function(testcase){
+    var groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', commands: []}
           , tmp      = _.clone(init_val)
           , result   = []
@@ -42,13 +38,13 @@
 
         // add result
         result = _.map(result, function(test){
-            return(_.extend(test, { result: get_commands_total_result(test.commands) }));
+            return(_.extend(test, { result: getCommandsTotalResult(test.commands) }));
         });
 
         return(result);
     };
 
-    var result_equals = function(result, command){
+    var resultEquals = function(result, command){
         return(command.result === result);
     };
 
@@ -64,14 +60,14 @@
           , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
           , data     = { title:  title
-                       , result: get_commands_total_result(commands)
-                       , tests:  group_testcase(tests)
+                       , result: getCommandsTotalResult(commands)
+                       , tests:  groupTestCase(tests)
                        , does_show_summary: (does_show_summary === undefined) ? true : false
                        , count:  {
                            total:     commands.length
-                         , done:      _.filter(commands, _.partial(result_equals, 'done')).length
-                         , failed:    _.filter(commands, _.partial(result_equals, 'failed')).length
-                         , undefined: _.filter(commands, _.partial(result_equals, 'undefined')).length
+                         , done:      _.filter(commands, _.partial(resultEquals, 'done')).length
+                         , failed:    _.filter(commands, _.partial(resultEquals, 'failed')).length
+                         , undefined: _.filter(commands, _.partial(resultEquals, 'undefined')).length
                          }
                        }
           ;
@@ -112,9 +108,9 @@
         data.result = get_commands_total_result(commands);
         data.count = {
             total: commands.length
-          , done:  _.filter(commands, _.partial(result_equals, 'done')).length
-          , failed:  _.filter(commands, _.partial(result_equals, 'failed')).length
-          , undefined:  _.filter(commands, _.partial(result_equals, 'undefined')).length
+          , done:  _.filter(commands, _.partial(resultEquals, 'done')).length
+          , failed:  _.filter(commands, _.partial(resultEquals, 'failed')).length
+          , undefined:  _.filter(commands, _.partial(resultEquals, 'undefined')).length
         };
 
         IDE_UTIL.writeFile(
