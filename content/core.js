@@ -15,8 +15,12 @@
         }
     };
 
+    var isHeadingComment = function(s){
+        return(s.indexOf('#') === 0);
+    };
+
     var groupTestCase = function(testcase){
-        var init_val = {title: '(no title)', result: 'done', commands: []}
+        var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
           , tmp      = _.clone(init_val)
           , result   = []
           ;
@@ -24,11 +28,15 @@
         // grouping
         _.each(testcase, function(cmd){
             if(cmd.type === 'comment'){
-                if(tmp.commands.length === 0){
-                    tmp.title = cmd.value;
+                if(isHeadingComment(cmd.value)){
+                    result.push({type: 'heading', title: cmd.value});
                 } else {
-                    result.push(tmp);
-                    tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
+                    if(tmp.commands.length === 0){
+                        tmp.title = cmd.value;
+                    } else {
+                        result.push(tmp);
+                        tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
+                    }
                 }
             } else {
                 tmp.commands.push(cmd);
@@ -71,6 +79,17 @@
               , tests:  groupTestCase(tests)
               , summary: (no_summary === undefined) ? summary : ""}
           ;
+
+        // convert heading title
+        _.map(data.tests, function(test){
+            if(test.type === 'heading' && test.title.match(/^(#+)\s*(.+)$/)){
+                test.title = SIPR.formatter.heading({
+                    n: RegExp.$1.length
+                  , value: RegExp.$2
+                });
+            }
+            return(test);
+        });
 
         return(SIPR.formatter.testcase(data));
     };

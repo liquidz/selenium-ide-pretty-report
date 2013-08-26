@@ -10,6 +10,7 @@
       , testsuite: _.template(tplFile('testsuite.html'))
       , now:       _.template(tplFile('now.html'))
       , summary:   _.template(tplFile('summary.html'))
+      , heading:   _.template(tplFile('heading.html'))
     };
 
     var self = {};
@@ -44,6 +45,8 @@
         data.now = getCurrentTime();
         return(template.summary(data));
     };
+
+    self.heading = template.heading;
 
     if(!window.SIPR.formatter){
         window.SIPR.formatter = self;

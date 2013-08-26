@@ -4,44 +4,48 @@
     <h2 class="testcase-name"><%= title %></h2>
     <div class="block">
     <% _.each(tests, function(test){ %>
-        <div class="command-group <%= test.result %>">
-            <p>
-                <% if(test.result === "done"){ %>
-                    <i class="icon-ok"></i>
-                <% } else if(test.result === "failed"){ %>
-                    <i class="icon-remove"></i>
-                <% } else { %>
-                    <i class="icon-question"></i>
-                <% } %>
-                <%= test.title %>
-            </p>
-
-            <table class="pure-table pure-table-striped testcase-commands">
-            <thead><tr>
-                <th class="testcase-result"></th>
-                <th class="testcase-command">Command</th>
-                <th class="testcase-target">Target</th>
-                <th class="testcase-value">Value</th>
-            </tr></thead>
-            <tbody>
-            <% _.each(test.commands, function(cmd){ %>
-            <tr class="<%= cmd.result %>">
-                <td class="testcase-result">
-                    <% if(cmd.result === "done"){ %>
+        <% if(test.type === "heading"){ %>
+            <%= test.title %>
+        <% } else { %>
+            <div class="command-group <%= test.result %>">
+                <p>
+                    <% if(test.result === "done"){ %>
                         <i class="icon-ok"></i>
-                    <% } else if(cmd.result === "failed"){ %>
+                    <% } else if(test.result === "failed"){ %>
                         <i class="icon-remove"></i>
                     <% } else { %>
                         <i class="icon-question"></i>
                     <% } %>
-                </td>
-                <td class="testcase-command"><%= cmd.command %></td>
-                <td class="testcase-target"><%= cmd.target %></td>
-                <td class="testcase-value"><%= cmd.value %></td>
-            </tr>
-            <% }); %>
-            </tbody></table>
-        </div>
+                    <%= test.title %>
+                </p>
+
+                <table class="pure-table pure-table-striped testcase-commands">
+                <thead><tr>
+                    <th class="testcase-result"></th>
+                    <th class="testcase-command">Command</th>
+                    <th class="testcase-target">Target</th>
+                    <th class="testcase-value">Value</th>
+                </tr></thead>
+                <tbody>
+                <% _.each(test.commands, function(cmd){ %>
+                <tr class="<%= cmd.result %>">
+                    <td class="testcase-result">
+                        <% if(cmd.result === "done"){ %>
+                            <i class="icon-ok"></i>
+                        <% } else if(cmd.result === "failed"){ %>
+                            <i class="icon-remove"></i>
+                        <% } else { %>
+                            <i class="icon-question"></i>
+                        <% } %>
+                    </td>
+                    <td class="testcase-command"><%= cmd.command %></td>
+                    <td class="testcase-target"><%= cmd.target %></td>
+                    <td class="testcase-value"><%= cmd.value %></td>
+                </tr>
+                <% }); %>
+                </tbody></table>
+            </div>
+        <% } %>
     <% }); %>
     </div>
 </div>
