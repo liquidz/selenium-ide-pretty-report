@@ -80,8 +80,8 @@
             IDE_UTIL.openFileDialog("title")
           , SIPR.formatter.html({
                 title:  self.title
-              , style:  ADDON_UTIL.read_file(self.css_file)
-              , script: ADDON_UTIL.read_file(self.js_file)
+              , style:  ADDON_UTIL.readFile(self.css_file)
+              , script: ADDON_UTIL.readFile(self.js_file)
               , body:   getTestCaseResultContent(IDE_UTIL.getTestCase())
             })
         );
@@ -117,8 +117,8 @@
             IDE_UTIL.openFileDialog("title")
           , SIPR.formatter.html({
                 title: self.title
-              , style:  ADDON_UTIL.read_file(self.css_file)
-              , script: ADDON_UTIL.read_file(self.js_file)
+              , style:  ADDON_UTIL.readFile(self.css_file)
+              , script: ADDON_UTIL.readFile(self.js_file)
               , body:   SIPR.formatter.testsuite(data)
             })
         );
