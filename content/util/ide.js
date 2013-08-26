@@ -27,14 +27,14 @@
         );
     };
 
-    var _parseComment = function(src){
+    var parseComment = function(src){
         if(src.match(/<!--\s*(.+?)\s*-->/)){
             return({type: "comment", value: RegExp.$1});
         }
         return("err1:" + src);
     };
 
-    var _parseCommand = function(src){
+    var parseCommand = function(src){
         if(src.match(/<td>(.+?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*/)){
             return({type: "command", command: RegExp.$1, target: RegExp.$2, value: RegExp.$3});
         }
@@ -52,9 +52,9 @@
           , res = null
           ;
         if(src.indexOf("<!--") !== -1){
-            res = _parseComment(src);
+            res = parseComment(src);
         } else {
-            res = _parseCommand(src);
+            res = parseCommand(src);
         }
         res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
 
