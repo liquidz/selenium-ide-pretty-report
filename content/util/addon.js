@@ -2,7 +2,7 @@
     var self = {};
 
     // c.f. http://stackoverflow.com/questions/3772788/how-to-load-file-from-inside-firefox-plugin
-    self.read_file = function(file){
+    self.readFile = function(file){
         var ioService = Components
             .classes["@mozilla.org/network/io-service;1"]
             .getService(Components.interfaces.nsIIOService);
