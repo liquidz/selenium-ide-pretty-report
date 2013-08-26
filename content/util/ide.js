@@ -57,6 +57,7 @@
             res = parseCommand(src);
         }
         res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
+        res.result = (cmd.result === 'passed') ? 'done' : res.result;
 
         return(res);
     };
