@@ -57,7 +57,7 @@
             res = parseCommand(src);
         }
         res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
-        res.result = (cmd.result === 'passed') ? 'done' : res.result;
+        res.result = (res.result === 'passed') ? 'done' : res.result;
 
         return(res);
     };
@@ -85,6 +85,7 @@
             }
             test.content.commands = test.content.commands.map(function(x){
                 x.result = (x.result === undefined) ? 'undefined' : x.result;
+                x.result = (x.result === 'passed') ? 'done' : x.result;
                 return(x);
             });
             return(test);

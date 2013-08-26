@@ -1,0 +1,31 @@
+<!-- summary -->
+<div class="summary">
+    <h2><%= title %></h2>
+    <div class="block">
+        <h3 class="<%= result %>">
+        <% if(result === "done"){ %>
+            <i class="icon-ok"></i> DONE
+        <% } else if(result === "failed"){ %>
+            <i class="icon-remove"></i> FAILED
+        <% } else { %>
+            <i class="icon-question"></i> UNDEFINED
+        <% } %>
+        </h3>
+        <p><%= now %></p>
+        <table class="pure-table">
+        <thead><tr>
+            <th class="done">Done</th>
+            <th class="failed">Failed</th>
+            <th class="undefined">Undefined</th>
+            <th class="total">Total</th>
+        </tr></thead>
+        <tbody><tr>
+            <td class="done"><%= done %></th>
+            <td class="failed"><%= failed %></th>
+            <td class="undefined"><%= undefined %></th>
+            <td class="total"><%= total %></th>
+        </tr></tbody>
+        </table>
+    </div>
+</div>
+<!-- /summary -->

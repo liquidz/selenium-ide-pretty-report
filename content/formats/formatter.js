@@ -9,6 +9,7 @@
       , testcase:  _.template(tplFile('testcase.html'))
       , testsuite: _.template(tplFile('testsuite.html'))
       , now:       _.template(tplFile('now.html'))
+      , summary:   _.template(tplFile('summary.html'))
     };
 
     var self = {};
@@ -36,16 +37,13 @@
         return(template.html(data));
     }
 
-    self.testcase = function(data){
-        data.now = getCurrentTime();
-        return(template.testcase(data));
-    };
+    self.testcase  = template.testcase;
+    self.testsuite = template.testsuite;
 
-    self.testsuite = function(data){
+    self.summary = function(data){
         data.now = getCurrentTime();
-        return(template.testsuite(data));
+        return(template.summary(data));
     };
-
 
     if(!window.SIPR.formatter){
         window.SIPR.formatter = self;

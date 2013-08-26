@@ -55,21 +55,21 @@
         });
     };
 
-    var getTestCaseResultContent = function(testcase, does_show_summary){
+    var getTestCaseResultContent = function(testcase, no_summary){
         var title    = IDE_UTIL.getTestCaseTitle(testcase)
           , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
-          , data     = { title:  title
-                       , result: getCommandsTotalResult(commands)
-                       , tests:  groupTestCase(tests)
-                       , does_show_summary: (does_show_summary === undefined) ? true : false
-                       , count:  {
-                           total:     commands.length
-                         , done:      _.filter(commands, _.partial(resultEquals, 'done')).length
-                         , failed:    _.filter(commands, _.partial(resultEquals, 'failed')).length
-                         , undefined: _.filter(commands, _.partial(resultEquals, 'undefined')).length
-                         }
-                       }
+          , summary  = SIPR.formatter.summary({
+                title: 'Test Case Summary'
+              , result: getCommandsTotalResult(commands)
+              , done:      _.filter(commands, _.partial(resultEquals, 'done')).length
+              , failed:    _.filter(commands, _.partial(resultEquals, 'failed')).length
+              , undefined: _.filter(commands, _.partial(resultEquals, 'undefined')).length
+              , total: commands.length})
+          , data     = {
+                title:  title
+              , tests:  groupTestCase(tests)
+              , summary: (no_summary === undefined) ? summary : ""}
           ;
 
         return(SIPR.formatter.testcase(data));
@@ -89,29 +89,21 @@
 
     self.exportTestSuiteResult = function(){
         var suite    = IDE_UTIL.getTestSuite()
-          , contents = _.map(suite, function(test){ return(getTestCaseResultContent(test.content, false)); })
+          , contents = _.map(suite, function(test){
+                return(getTestCaseResultContent(test.content, false)); })
+          , commands = _.chain(suite).reduce(function(res, test){
+                return(res.concat(test.content.commands));
+            }, []).filter(function(x){ return(x.type === 'command'); }).value()
+          , summary  = SIPR.formatter.summary({
+                title:      'Test Suite Summary'
+              , result:     getCommandsTotalResult(commands)
+              , total:      commands.length
+              , done:       _.filter(commands, _.partial(resultEquals, 'done')).length
+              , failed:     _.filter(commands, _.partial(resultEquals, 'failed')).length
+              , undefined:  _.filter(commands, _.partial(resultEquals, 'undefined')).length })
           , data     = { suite: contents
-                       , result: 'foo'
-                       , count: {
-                           totla: 0
-                         , done: 0
-                         , failed: 0
-                         , undefined: 0
-                         }
-                       }
+                       , summary: summary }
           ;
-
-        var commands = _.chain(suite).reduce(function(res, test){
-            return(res.concat(test.content.commands));
-        }, []).filter(function(x){ return(x.type === 'command'); }).value();
-
-        data.result = get_commands_total_result(commands);
-        data.count = {
-            total: commands.length
-          , done:  _.filter(commands, _.partial(resultEquals, 'done')).length
-          , failed:  _.filter(commands, _.partial(resultEquals, 'failed')).length
-          , undefined:  _.filter(commands, _.partial(resultEquals, 'undefined')).length
-        };
 
         IDE_UTIL.writeFile(
             IDE_UTIL.openFileDialog("title")
