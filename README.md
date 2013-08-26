@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/liquidz/selenium-ide-pretty-report.png?label=ready)](https://waffle.io/liquidz/selenium-ide-pretty-report)  
 # Selenium IDE: Pretty Report
 
 [![Stories in Ready](https://badge.waffle.io/liquidz/selenium-ide-pretty-report.png)](http://waffle.io/liquidz/selenium-ide-pretty-report)
