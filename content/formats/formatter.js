@@ -1,19 +1,19 @@
 (function(window, undefined){
 
-    var tpl_file = function(name){
-        return(ADDON_UTIL.read_file("resource://si_prettyreport/template/" + name));
+    var tplFile = function(name){
+        return(ADDON_UTIL.readFile("resource://si_prettyreport/template/" + name));
     }
 
     var template = {
-        html:      _.template(tpl_file('html5.html'))
-      , testcase:  _.template(tpl_file('testcase.html'))
-      , testsuite: _.template(tpl_file('testsuite.html'))
-      , now:       _.template(tpl_file('now.html'))
+        html:      _.template(tplFile('html5.html'))
+      , testcase:  _.template(tplFile('testcase.html'))
+      , testsuite: _.template(tplFile('testsuite.html'))
+      , now:       _.template(tplFile('now.html'))
     };
 
     var self = {};
 
-    var _getCurrentTime = function(){
+    var getCurrentTime = function(){
         var d    = new Date()
           , data = {
               year: d.getFullYear()
@@ -32,17 +32,17 @@
     };
 
     self.html = function(data){
-        data.now = _getCurrentTime();
+        data.now = getCurrentTime();
         return(template.html(data));
     }
 
     self.testcase = function(data){
-        data.now = _getCurrentTime();
+        data.now = getCurrentTime();
         return(template.testcase(data));
     };
 
     self.testsuite = function(data){
-        data.now = _getCurrentTime();
+        data.now = getCurrentTime();
         return(template.testsuite(data));
     };
 
