@@ -21,6 +21,7 @@
 
     var groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
+          , heading  = []
           , tmp      = _.clone(init_val)
           , result   = []
           ;
@@ -29,12 +30,13 @@
         _.each(testcase, function(cmd){
             if(cmd.type === 'comment'){
                 if(isHeadingComment(cmd.value)){
-                    result.push({type: 'heading', title: cmd.value});
+                    heading = heading.concat({type: 'heading', title: cmd.value})
                 } else {
                     if(tmp.commands.length === 0){
                         tmp.title = cmd.value;
                     } else {
                         result.push(tmp);
+                        if(_.isEmpty(heading) === false){ result = result.concat(heading); heading = []; }
                         tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
                     }
                 }
@@ -42,7 +44,10 @@
                 tmp.commands.push(cmd);
             }
         });
-        if(tmp.commands.length !== 0){ result.push(tmp); }
+        if(tmp.commands.length !== 0){
+            result.push(tmp);
+            if(_.isEmpty(heading) === false){ result = result.concat(heading); }
+        }
 
         // add result
         result = _.map(result, function(test){
