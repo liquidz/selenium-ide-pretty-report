@@ -1,6 +1,6 @@
 # Selenium IDE: Pretty Report
 
-[![Stories in Ready](https://badge.waffle.io/liquidz/selenium-ide-pretty-report.png)](http://waffle.io/liquidz/selenium-ide-pretty-report)
+[![Stories in Ready](https://badge.waffle.io/liquidz/selenium-ide-pretty-report.png?label=ready)](http://waffle.io/liquidz/selenium-ide-pretty-report)
 
 Pretty Report is a Selenium IDE plugin to save test case/test suite results as a pretty HTML report.
 
