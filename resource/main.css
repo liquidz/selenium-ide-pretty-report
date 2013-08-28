@@ -34,6 +34,9 @@ div.command-group > p { cursor: pointer; }
 .undefined > .testcase-result > i { color: #012D3D; }
 
 /* test case result */
+div.testcase h3 { padding-bottom: 0.5em; border-bottom: 1px dashed #ccc; }
+div.testcase h4 { letter-spacing: 1px; }
+
 div.testcase p.done      {}
 div.testcase p.failed    {}
 div.testcase p.undefined {}
