@@ -105,7 +105,7 @@
     };
 
     self.exportTestCaseResults = function(){
-        IDE_UTIL.writeFile(
+        ADDON.writeFile(
             IDE_UTIL.openFileDialog("title")
           , SIPR.formatter.html({
                 title:  self.title
@@ -134,7 +134,7 @@
                        , summary: summary }
           ;
 
-        IDE_UTIL.writeFile(
+        ADDON.writeFile(
             IDE_UTIL.openFileDialog("title")
           , SIPR.formatter.html({
                 title: self.title

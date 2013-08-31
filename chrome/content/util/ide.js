@@ -1,22 +1,6 @@
 (function(window, undefined){
     var self = {};
 
-    self.writeFile = function(file, contents){
-        try {
-            var output    = FileUtils.openFileOutputStream(file)
-              , converter = FileUtils.getUnicodeConverter("UTF-8")
-              , text      = converter.ConvertFromUnicode(contents)
-              ;
-            output.write(text, text.length);
-            var fin = converter.Finish();
-            if(fin.length > 0){ output.write(fin, fin.length); }
-            output.close();
-            return true;
-        } catch(e){
-            return false;
-        }
-    };
-
     self.openFileDialog = function(title){
         return showFilePicker(
                 window
