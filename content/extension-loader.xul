@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<overlay id="si_prettyreport_extension_loader"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+         xmlns:html="http://www.w3.org/1999/xhtml">
+    <script type="application/x-javascript" src="chrome://selenium-ide/content/api.js" />
+
+    <html:script type="application/javascript">
+        var ide_api = new API();
+        ide_api.addPlugin("si_prettyreport@liquidz.uo");
+    </html:script>
+</overlay>
