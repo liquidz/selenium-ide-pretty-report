@@ -1,7 +1,7 @@
 (function(window, undefined){
 
     var tplFile = function(name){
-        return(ADDON_UTIL.readFile("resource://si_prettyreport/template/" + name));
+        return(ADDON.readFile("resource://si_prettyreport/template/" + name));
     }
 
     var template = {

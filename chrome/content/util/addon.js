@@ -1,8 +1,9 @@
 (function(window, undefined){
-    var self = {};
+
+    function Addon(){}
 
     // c.f. http://stackoverflow.com/questions/3772788/how-to-load-file-from-inside-firefox-plugin
-    self.readFile = function(file){
+    Addon.prototype.readFile = function(file){
         var ioService = Components
             .classes["@mozilla.org/network/io-service;1"]
             .getService(Components.interfaces.nsIIOService);
@@ -18,8 +19,8 @@
         return str;
     };
 
-    if(!window.ADDON_UTIL){
-        window.ADDON_UTIL = self;
+    if(!window.ADDON){
+        //window.ADDON_UTIL = self;
+        window.ADDON = new Addon();
     }
-
 }(window));
