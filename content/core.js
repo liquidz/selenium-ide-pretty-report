@@ -62,9 +62,14 @@
     };
 
     self.foo = function(){
-        var suite = window.editor.app.getTestSuite();
-        _.each(suite.tests, function(test){
-            alert(test.getTitle());
+        var testcases = IDE_UTIL.collectTestCaseCommands(IDE_UTIL.getTestCase());
+        var x = _.map(testcases, IDE_UTIL.parseTestCase);
+        _.each(x, function(y){
+            if(y.rollup){
+                _.each(y.rollup.commands, function(c){
+                    alert(c.command + ", " + c.target + ", " + c.value);
+                });
+            }
         });
     };
 

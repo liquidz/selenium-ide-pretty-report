@@ -47,6 +47,22 @@
         }, []));
     };
 
+    var expandRollupRules = function(cmd){
+        var rollup = null;
+        if(cmd.isRollup && cmd.isRollup()){
+            var rule = Editor.rollupManager.getRollupRule(cmd.target);
+            if(rule !== null){
+                rollup = {
+                    name:        rule.name
+                  , description: rule.description
+                  , args:        rule.args
+                  , commands:    rule.getExpandedCommands(cmd.value).map(self.parseTestCase)
+                };
+            }
+        }
+        return(rollup);
+    };
+
     self.parseTestCase = function(cmd){
         var src = getSourceForCommand(cmd)
           , res = null
@@ -56,6 +72,10 @@
         } else {
             res = parseCommand(src);
         }
+
+        // rollup
+        res.rollup = expandRollupRules(cmd);
+        // result
         res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
         res.result = (res.result === 'passed') ? 'done' : res.result;
 

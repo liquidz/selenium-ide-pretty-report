@@ -41,6 +41,8 @@ div.testcase p.done      {}
 div.testcase p.failed    {}
 div.testcase p.undefined {}
 
+div.testcase table tbody tr.rollup i { color: #999; font-size: 80%; }
+
 /* test case commands */
 div.testcase p table tbody tr.done     {}
 div.testcase p table tbody tr.failed   {}

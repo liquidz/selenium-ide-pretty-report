@@ -28,20 +28,30 @@
                 </tr></thead>
                 <tbody>
                 <% _.each(test.commands, function(cmd){ %>
-                <tr class="<%= cmd.result %>">
-                    <td class="testcase-result">
-                        <% if(cmd.result === "done"){ %>
-                            <i class="icon-ok"></i>
-                        <% } else if(cmd.result === "failed"){ %>
-                            <i class="icon-remove"></i>
-                        <% } else { %>
-                            <i class="icon-question"></i>
-                        <% } %>
-                    </td>
-                    <td class="testcase-command"><%= cmd.command %></td>
-                    <td class="testcase-target"><%= cmd.target %></td>
-                    <td class="testcase-value"><%= cmd.value %></td>
-                </tr>
+                    <tr class="<%= cmd.result %>">
+                        <td class="testcase-result">
+                            <% if(cmd.result === "done"){ %>
+                                <i class="icon-ok"></i>
+                            <% } else if(cmd.result === "failed"){ %>
+                                <i class="icon-remove"></i>
+                            <% } else { %>
+                                <i class="icon-question"></i>
+                            <% } %>
+                        </td>
+                        <td class="testcase-command"><%= cmd.command %></td>
+                        <td class="testcase-target"><%= cmd.target %></td>
+                        <td class="testcase-value"><%= cmd.value %></td>
+                    </tr>
+                    <% if(cmd.rollup){ %>
+                        <% _.each(cmd.rollup.commands, function(cmd){ %>
+                            <tr class="rollup">
+                                <td class="testcase-result"></td>
+                                <td class="testcase-command"><i class="icon-long-arrow-right"></i> <%= cmd.command %></td>
+                                <td class="testcase-target"><%= cmd.target %></td>
+                                <td class="testcase-value"><%= cmd.value %></td>
+                            </tr>
+                        <% }); %>
+                    <% } %>
                 <% }); %>
                 </tbody></table>
             </div>
