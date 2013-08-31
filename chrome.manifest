@@ -1,5 +1,5 @@
 content si_prettyreport chrome/content/
-resource si_prettyreport chrome/resource/
+resource si_prettyreport chrome/skin/
 
 overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://si_prettyreport/content/extension-loader.xul
 overlay chrome://selenium-ide/content/selenium-ide-common.xul chrome://si_prettyreport/content/core.xul
