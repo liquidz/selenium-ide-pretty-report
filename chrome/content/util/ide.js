@@ -1,16 +1,6 @@
 (function(window, undefined){
     var self = {};
 
-    self.openFileDialog = function(title){
-        return showFilePicker(
-                window
-              , title
-              , Components.interfaces.nsIFilePicker.modeSave
-              , Format.TEST_CASE_EXPORT_DIRECTORY_PREF
-              , function(fp){ return fp.file; }
-        );
-    };
-
     var parseComment = function(src){
         if(src.match(/<!--\s*(.+?)\s*-->/)){
             return({type: "comment", value: RegExp.$1});

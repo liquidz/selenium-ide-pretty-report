@@ -39,6 +39,16 @@
         }
     };
 
+    Addon.prototype.openFileDialog = function(title){
+        return showFilePicker(
+                window
+              , title
+              , Components.interfaces.nsIFilePicker.modeSave
+              , Format.TEST_CASE_EXPORT_DIRECTORY_PREF
+              , function(fp){ return fp.file; }
+        );
+    };
+
     if(!window.ADDON){
         //window.ADDON_UTIL = self;
         window.ADDON = new Addon();

@@ -106,7 +106,7 @@
 
     self.exportTestCaseResults = function(){
         ADDON.writeFile(
-            IDE_UTIL.openFileDialog("title")
+            ADDON.openFileDialog("title")
           , SIPR.formatter.html({
                 title:  self.title
               , style:  ADDON.readFile(self.css_file)
@@ -135,7 +135,7 @@
           ;
 
         ADDON.writeFile(
-            IDE_UTIL.openFileDialog("title")
+            ADDON.openFileDialog("title")
           , SIPR.formatter.html({
                 title: self.title
               , style:  ADDON.readFile(self.css_file)
