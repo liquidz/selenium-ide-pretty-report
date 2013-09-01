@@ -2,12 +2,12 @@
 
     function PrettyReportTemplate(){
         this.template_fn = {
-            html:      _.template(this.tplFile('html5.html'))
-          , testcase:  _.template(this.tplFile('testcase.html'))
-          , testsuite: _.template(this.tplFile('testsuite.html'))
-          , now:       _.template(this.tplFile('now.html'))
-          , summary:   _.template(this.tplFile('summary.html'))
-          , heading:   _.template(this.tplFile('heading.html'))
+            html      : _.template(this.tplFile('html5.html'))
+          , testcase  : _.template(this.tplFile('testcase.html'))
+          , testsuite : _.template(this.tplFile('testsuite.html'))
+          , now       : _.template(this.tplFile('now.html'))
+          , summary   : _.template(this.tplFile('summary.html'))
+          , heading   : _.template(this.tplFile('heading.html'))
         };
     }
 
@@ -18,12 +18,12 @@
     PrettyReportTemplate.prototype.getCurrentTime = function(){
         var d    = new Date()
           , data = {
-              year: d.getFullYear()
-            , mon:  d.getMonth() + 1
-            , day:  d.getDate()
-            , hour: d.getHours()
-            , min:  d.getMinutes()
-            , sec:  d.getSeconds()}
+              year : d.getFullYear()
+            , mon  : d.getMonth() + 1
+            , day  : d.getDate()
+            , hour : d.getHours()
+            , min  : d.getMinutes()
+            , sec  : d.getSeconds()}
           ;
         if(data.mon < 10){  data.mon  = '0' + data.mon; }
         if(data.day < 10){  data.day  = '0' + data.day; }
@@ -39,14 +39,14 @@
     }
 
     PrettyReportTemplate.prototype.testcase  = function(data){ return(this.template_fn.testcase(data)); };
-    PrettyReportTemplate.prototype.testsuite = function(data){ return(this.template_fn.testsuite); };
+    PrettyReportTemplate.prototype.testsuite = function(data){ return(this.template_fn.testsuite(data)); };
 
     PrettyReportTemplate.prototype.summary = function(data){
         data.now = this.getCurrentTime();
         return(this.template_fn.summary(data));
     };
 
-    PrettyReportTemplate.prototype.heading = function(data){ return(this.template_fn.heading); };
+    PrettyReportTemplate.prototype.heading = function(data){ return(this.template_fn.heading(data)); };
 
     if(!window.SIPR){
         window.SIPR = {};
