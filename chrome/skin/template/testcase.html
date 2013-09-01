@@ -1,7 +1,7 @@
-<div class="testcase">
-    <%= summary %>
+<%= summary %>
 
-    <h2 class="testcase-name"><%= title %></h2>
+<div class="testcase">
+    <h1 class="testcase-name"><%= title %></h1>
     <div class="block">
     <% _.each(tests, function(test){ %>
         <% if(test.type === "heading"){ %>

@@ -1,8 +1,8 @@
 <!-- summary -->
 <div class="summary">
-    <h2><%= title %></h2>
+    <h1><%= title %></h1>
     <div class="block">
-        <h3 class="<%= result %>">
+        <h2 class="<%= result %>">
         <% if(result === "done"){ %>
             <i class="icon-ok"></i> DONE
         <% } else if(result === "failed"){ %>
@@ -10,7 +10,7 @@
         <% } else { %>
             <i class="icon-question"></i> UNDEFINED
         <% } %>
-        </h3>
+        </h2>
         <p><%= now %></p>
         <table class="pure-table">
         <thead><tr>
