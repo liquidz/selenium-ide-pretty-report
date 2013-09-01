@@ -6,19 +6,49 @@
         this.js_file  = "resource://si_prettyreport/main.js";
     };
 
+    // PRIVATE FUNCTIONS
+
+    var resultEquals = function(result, command){
+        return(command.result === result);
+    };
+
+    var typeEquals = function(type, command){
+        return(command.type === type);
+    };
+
+    var isHeadingComment = function(command){
+        return(command.value.indexOf('#') === 0);
+    };
+
+    // define "isDoneCommand", "isFailedCommand", "isUndefinedCommand"
+    _.each(['Done', 'Failed', 'Undefined'], function(v){
+        var name = "is" + v + "Command";
+        PrettyReport.prototype[name] = _.partial(resultEquals, v.toLowerCase());
+    });
+
+    PrettyReport.prototype.isCommentCommand = _.partial(typeEquals, 'comment');
+
+    PrettyReport.prototype.isHeadingCommand = function(command){
+        return(_.every([PrettyReport.prototype.isCommentCommand, isHeadingComment], function(f){
+            return(f(command));
+        }));
+    };
+
+    //PrettyReport.prototype.isHeadingCommand = _.compose(
+    //    PrettyReport.prototype.isHeadingComment
+    //  , _.partial(PrettyReport.prototype.typeEquals('comment'))
+    //);
+
     PrettyReport.prototype.getCommandsTotalResult = function(commands){
-        if(_.every(commands, _.partial(this.resultEquals, 'done'))){
+        if(_.every(commands, this.isDoneCommand)){
             return('done');
-        } else if(_.every(commands, _.partial(this.resultEquals, 'undefined'))){
+        } else if(_.every(commands, this.isUndefinedCommand)){
             return('undefined');
         } else {
             return('failed');
         }
     };
 
-    PrettyReport.prototype.isHeadingComment = function(s){
-        return(s.indexOf('#') === 0);
-    };
 
     PrettyReport.prototype.groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
@@ -29,22 +59,24 @@
 
         // grouping
         _.each(testcase, _.bind(function(cmd){
-            if(cmd.type === 'comment'){
-                if(this.isHeadingComment(cmd.value)){
-                    heading = heading.concat({type: 'heading', title: cmd.value})
+            if(this.isHeadingCommand(cmd)){
+                // heading comment
+                heading = heading.concat({type: 'heading', title: cmd.value})
+            } else if(this.isCommentCommand(cmd)){
+                // normal comment
+                if(tmp.commands.length === 0){
+                    tmp.title = cmd.value;
                 } else {
-                    if(tmp.commands.length === 0){
-                        tmp.title = cmd.value;
-                    } else {
-                        result.push(tmp);
-                        if(_.isEmpty(heading) === false){ result = result.concat(heading); heading = []; }
-                        tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
-                    }
+                    result.push(tmp);
+                    if(_.isEmpty(heading) === false){ result = result.concat(heading); heading = []; }
+                    tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
                 }
             } else {
+                // command
                 tmp.commands.push(cmd);
             }
         }, this));
+
         if(tmp.commands.length !== 0){
             result.push(tmp);
             if(_.isEmpty(heading) === false){ result = result.concat(heading); }
@@ -58,9 +90,6 @@
         return(result);
     };
 
-    PrettyReport.prototype.resultEquals = function(result, command){
-        return(command.result === result);
-    };
 
     self.foo = function(){
         var testcases = IDE_UTIL.collectTestCaseCommands(IDE_UTIL.getTestCase());
@@ -81,9 +110,9 @@
           , summary  = SIPR.template.summary({
                 title: 'Test Case Summary'
               , result: this.getCommandsTotalResult(commands)
-              , done:      _.filter(commands, _.partial(this.resultEquals, 'done')).length
-              , failed:    _.filter(commands, _.partial(this.resultEquals, 'failed')).length
-              , undefined: _.filter(commands, _.partial(this.resultEquals, 'undefined')).length
+              , done:      _.filter(commands, this.isDoneCommand).length
+              , failed:    _.filter(commands, this.isFailedCommand).length
+              , undefined: _.filter(commands, this.isUndefinedCommand).length
               , total: commands.length})
           , data     = {
                 title:  title
@@ -128,9 +157,9 @@
                 title:      'Test Suite Summary'
               , result:     this.getCommandsTotalResult(commands)
               , total:      commands.length
-              , done:       _.filter(commands, _.partial(this.resultEquals, 'done')).length
-              , failed:     _.filter(commands, _.partial(this.resultEquals, 'failed')).length
-              , undefined:  _.filter(commands, _.partial(this.resultEquals, 'undefined')).length })
+              , done:       _.filter(commands, isDoneCommand).length
+              , failed:     _.filter(commands, isFailedCommand).length
+              , undefined:  _.filter(commands, isUndefinedCommand).length })
           , data     = { suite: contents
                        , summary: summary }
           ;
