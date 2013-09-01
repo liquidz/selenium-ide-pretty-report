@@ -6,8 +6,7 @@
         this.js_file  = "resource://si_prettyreport/main.js";
     };
 
-    // PRIVATE FUNCTIONS
-
+    // PRIVATE FUNCTIONS >>>>>
     var resultEquals = function(result, command){
         return(command.result === result);
     };
@@ -19,8 +18,12 @@
     var isHeadingComment = function(command){
         return(command.value.indexOf('#') === 0);
     };
+    // <<<<< PRIVATE FUNCTIONS
 
-    // define "isDoneCommand", "isFailedCommand", "isUndefinedCommand"
+    // define function
+    //  * isDoneCommand
+    //  * isFailedCommand
+    //  * isUndefinedCommand
     _.each(['Done', 'Failed', 'Undefined'], function(v){
         var name = "is" + v + "Command";
         PrettyReport.prototype[name] = _.partial(resultEquals, v.toLowerCase());
@@ -33,11 +36,6 @@
             return(f(command));
         }));
     };
-
-    //PrettyReport.prototype.isHeadingCommand = _.compose(
-    //    PrettyReport.prototype.isHeadingComment
-    //  , _.partial(PrettyReport.prototype.typeEquals('comment'))
-    //);
 
     PrettyReport.prototype.getCommandsTotalResult = function(commands){
         if(_.every(commands, this.isDoneCommand)){
@@ -108,16 +106,16 @@
           , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
           , summary  = SIPR.template.summary({
-                title: 'Test Case Summary'
-              , result: this.getCommandsTotalResult(commands)
-              , done:      _.filter(commands, this.isDoneCommand).length
-              , failed:    _.filter(commands, this.isFailedCommand).length
-              , undefined: _.filter(commands, this.isUndefinedCommand).length
-              , total: commands.length})
+                title     : 'Test Case Summary'
+              , result    : this.getCommandsTotalResult(commands)
+              , done      : _.filter(commands, this.isDoneCommand).length
+              , failed    : _.filter(commands, this.isFailedCommand).length
+              , undefined : _.filter(commands, this.isUndefinedCommand).length
+              , total     : commands.length})
           , data     = {
-                title:  title
-              , tests:  this.groupTestCase(tests)
-              , summary: (no_summary === undefined) ? summary : ""}
+                title     : title
+              , tests     : this.groupTestCase(tests)
+              , summary   : (no_summary === undefined) ? summary : ""}
           ;
 
         // convert heading title
@@ -138,10 +136,10 @@
         ADDON.writeFile(
             ADDON.openFileDialog("title")
           , SIPR.template.html({
-                title:  this.title
-              , style:  ADDON.readFile(this.css_file)
-              , script: ADDON.readFile(this.js_file)
-              , body:   this.getTestCaseResultContent(IDE_UTIL.getTestCase())
+                title  : this.title
+              , style  : ADDON.readFile(this.css_file)
+              , script : ADDON.readFile(this.js_file)
+              , body   : this.getTestCaseResultContent(IDE_UTIL.getTestCase())
             })
         );
     };
@@ -154,23 +152,22 @@
                 return(res.concat(test.content.commands));
             }, []).filter(function(x){ return(x.type === 'command'); }).value()
           , summary  = SIPR.template.summary({
-                title:      'Test Suite Summary'
-              , result:     this.getCommandsTotalResult(commands)
-              , total:      commands.length
-              , done:       _.filter(commands, isDoneCommand).length
-              , failed:     _.filter(commands, isFailedCommand).length
-              , undefined:  _.filter(commands, isUndefinedCommand).length })
-          , data     = { suite: contents
-                       , summary: summary }
+                title     : 'Test Suite Summary'
+              , result    : this.getCommandsTotalResult(commands)
+              , total     : commands.length
+              , done      : _.filter(commands, isDoneCommand).length
+              , failed    : _.filter(commands, isFailedCommand).length
+              , undefined : _.filter(commands, isUndefinedCommand).length })
+          , data     = { suite: contents, summary: summary }
           ;
 
         ADDON.writeFile(
             ADDON.openFileDialog("title")
           , SIPR.template.html({
-                title: this.title
-              , style:  ADDON.readFile(this.css_file)
-              , script: ADDON.readFile(this.js_file)
-              , body:   SIPR.template.testsuite(data)
+                title  : this.title
+              , style  : ADDON.readFile(this.css_file)
+              , script : ADDON.readFile(this.js_file)
+              , body   : SIPR.template.testsuite(data)
             })
         );
     };
