@@ -4,7 +4,7 @@
         <em:id>si_prettyreport@liquidz.uo</em:id>
         <em:type>2</em:type>
         <em:name>Selenium IDE: Pretty Report</em:name>
-        <em:version>0.1</em:version>
+        <em:version>0.0.1</em:version>
         <em:description>Selenium IDE plugin to save test case/test suite results as a pretty HTML report.</em:description>
         <em:creator>Masashi Iizuka</em:creator>
         <em:homepageURL>https://github.com/liquidz/selenium-ide-pretty-report</em:homepageURL>
