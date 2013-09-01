@@ -1,16 +1,9 @@
 /* =COMMON */
-body {
-    color: #012D3D;
-    background: #F9FCFC;
-}
-
-a { color: #04c; }
+body { color: #012D3D; background: #F9FCFC; }
+a    { color: #04c; }
 
 /* =CONTENT */
-div.content {
-    margin: 0 auto;
-    width: 70%;
-}
+div.content { margin-left: 2em; }
 
 /* =SUMMARY */
 div.summary h2.done      { color: #38AD9E; }
@@ -18,20 +11,20 @@ div.summary h2.failed    { color: #FF6867; }
 div.summary h2.undefined { color: #012D3D; }
 
 div.summary th, table.testcase-commands th { font-size: 80%; }
-div.summary td { text-align: center; }
+div.summary td                             { text-align: center; }
 
 /* =TEST CASE */
 div.testcase div.block { padding-left: 2em; }
 
 /* command group */
-div.testcase div.command-group > p { cursor: pointer; }
+div.testcase div.command-group > p             { cursor: pointer; }
 div.testcase .done > p > i                     { color: #38AD9E; }
 div.testcase .done > .testcase-result > i      { color: #38AD9E; }
 div.testcase .failed > p > i                   { color: #FF6867; }
 div.testcase .failed > .testcase-result > i    { color: #FF6867; }
 div.testcase .undefined > p > i                { color: #012D3D; }
 div.testcase .undefined > .testcase-result > i { color: #012D3D; }
-div.testcase table tbody tr.rollup i { color: #bbb; font-size: 80%; }
+div.testcase table tbody tr.rollup i           { color: #bbb; font-size: 80%; }
 
 /* heading */
 div.testcase div.block h1, div.testcase div.block h2, div.testcase div.block h3, div.testcase div.block h4, div.testcase div.block h5 {
@@ -41,7 +34,7 @@ div.testcase div.block h1, div.testcase div.block h2, div.testcase div.block h3,
 
 /* =FOOTER */
 div.footer {
-    margin-top: 10px;
-    text-align: right;
-    font-size: 80%;
+    margin-right: 2em;
+    text-align:   right;
+    font-size:    80%;
 }

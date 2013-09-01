@@ -155,9 +155,9 @@
                 title     : 'Test Suite Summary'
               , result    : this.getCommandsTotalResult(commands)
               , total     : commands.length
-              , done      : _.filter(commands, isDoneCommand).length
-              , failed    : _.filter(commands, isFailedCommand).length
-              , undefined : _.filter(commands, isUndefinedCommand).length })
+              , done      : _.filter(commands, this.isDoneCommand).length
+              , failed    : _.filter(commands, this.isFailedCommand).length
+              , undefined : _.filter(commands, this.isUndefinedCommand).length })
           , data     = { suite: contents, summary: summary }
           ;
 
