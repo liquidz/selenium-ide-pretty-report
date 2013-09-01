@@ -1,25 +1,26 @@
 (function(window, undefined){
-    var self = {};
 
-    self.title    = "Selenium IDE: Pretty Report";
-    self.css_file = "resource://si_prettyreport/main.css";
-    self.js_file  = "resource://si_prettyreport/main.js";
+    function PrettyReport(){
+        this.title    = "Selenium IDE: Pretty Report";
+        this.css_file = "resource://si_prettyreport/main.css";
+        this.js_file  = "resource://si_prettyreport/main.js";
+    };
 
-    var getCommandsTotalResult = function(commands){
-        if(_.every(commands, _.partial(resultEquals, 'done'))){
+    PrettyReport.prototype.getCommandsTotalResult = function(commands){
+        if(_.every(commands, _.partial(this.resultEquals, 'done'))){
             return('done');
-        } else if(_.every(commands, _.partial(resultEquals, 'undefined'))){
+        } else if(_.every(commands, _.partial(this.resultEquals, 'undefined'))){
             return('undefined');
         } else {
             return('failed');
         }
     };
 
-    var isHeadingComment = function(s){
+    PrettyReport.prototype.isHeadingComment = function(s){
         return(s.indexOf('#') === 0);
     };
 
-    var groupTestCase = function(testcase){
+    PrettyReport.prototype.groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
           , heading  = []
           , tmp      = _.clone(init_val)
@@ -27,9 +28,9 @@
           ;
 
         // grouping
-        _.each(testcase, function(cmd){
+        _.each(testcase, _.bind(function(cmd){
             if(cmd.type === 'comment'){
-                if(isHeadingComment(cmd.value)){
+                if(this.isHeadingComment(cmd.value)){
                     heading = heading.concat({type: 'heading', title: cmd.value})
                 } else {
                     if(tmp.commands.length === 0){
@@ -43,21 +44,21 @@
             } else {
                 tmp.commands.push(cmd);
             }
-        });
+        }, this));
         if(tmp.commands.length !== 0){
             result.push(tmp);
             if(_.isEmpty(heading) === false){ result = result.concat(heading); }
         }
 
         // add result
-        result = _.map(result, function(test){
-            return(_.extend(test, { result: getCommandsTotalResult(test.commands) }));
-        });
+        result = _.map(result, _.bind(function(test){
+            return(_.extend(test, { result: this.getCommandsTotalResult(test.commands) }));
+        }, this));
 
         return(result);
     };
 
-    var resultEquals = function(result, command){
+    PrettyReport.prototype.resultEquals = function(result, command){
         return(command.result === result);
     };
 
@@ -73,20 +74,20 @@
         });
     };
 
-    var getTestCaseResultContent = function(testcase, no_summary){
+    PrettyReport.prototype.getTestCaseResultContent = function(testcase, no_summary){
         var title    = IDE_UTIL.getTestCaseTitle(testcase)
           , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
           , summary  = SIPR.template.summary({
                 title: 'Test Case Summary'
-              , result: getCommandsTotalResult(commands)
-              , done:      _.filter(commands, _.partial(resultEquals, 'done')).length
-              , failed:    _.filter(commands, _.partial(resultEquals, 'failed')).length
-              , undefined: _.filter(commands, _.partial(resultEquals, 'undefined')).length
+              , result: this.getCommandsTotalResult(commands)
+              , done:      _.filter(commands, _.partial(this.resultEquals, 'done')).length
+              , failed:    _.filter(commands, _.partial(this.resultEquals, 'failed')).length
+              , undefined: _.filter(commands, _.partial(this.resultEquals, 'undefined')).length
               , total: commands.length})
           , data     = {
                 title:  title
-              , tests:  groupTestCase(tests)
+              , tests:  this.groupTestCase(tests)
               , summary: (no_summary === undefined) ? summary : ""}
           ;
 
@@ -104,32 +105,32 @@
         return(SIPR.template.testcase(data));
     };
 
-    self.exportTestCaseResults = function(){
+    PrettyReport.prototype.exportTestCaseResults = function(){
         ADDON.writeFile(
             ADDON.openFileDialog("title")
           , SIPR.template.html({
-                title:  self.title
-              , style:  ADDON.readFile(self.css_file)
-              , script: ADDON.readFile(self.js_file)
-              , body:   getTestCaseResultContent(IDE_UTIL.getTestCase())
+                title:  this.title
+              , style:  ADDON.readFile(this.css_file)
+              , script: ADDON.readFile(this.js_file)
+              , body:   this.getTestCaseResultContent(IDE_UTIL.getTestCase())
             })
         );
     };
 
-    self.exportTestSuiteResult = function(){
+    PrettyReport.prototype.exportTestSuiteResult = function(){
         var suite    = IDE_UTIL.getTestSuite()
-          , contents = _.map(suite, function(test){
-                return(getTestCaseResultContent(test.content, false)); })
+          , contents = _.map(suite, _.bind(function(test){
+                return(this.getTestCaseResultContent(test.content, false)); }, this))
           , commands = _.chain(suite).reduce(function(res, test){
                 return(res.concat(test.content.commands));
             }, []).filter(function(x){ return(x.type === 'command'); }).value()
           , summary  = SIPR.template.summary({
                 title:      'Test Suite Summary'
-              , result:     getCommandsTotalResult(commands)
+              , result:     this.getCommandsTotalResult(commands)
               , total:      commands.length
-              , done:       _.filter(commands, _.partial(resultEquals, 'done')).length
-              , failed:     _.filter(commands, _.partial(resultEquals, 'failed')).length
-              , undefined:  _.filter(commands, _.partial(resultEquals, 'undefined')).length })
+              , done:       _.filter(commands, _.partial(this.resultEquals, 'done')).length
+              , failed:     _.filter(commands, _.partial(this.resultEquals, 'failed')).length
+              , undefined:  _.filter(commands, _.partial(this.resultEquals, 'undefined')).length })
           , data     = { suite: contents
                        , summary: summary }
           ;
@@ -137,15 +138,15 @@
         ADDON.writeFile(
             ADDON.openFileDialog("title")
           , SIPR.template.html({
-                title: self.title
-              , style:  ADDON.readFile(self.css_file)
-              , script: ADDON.readFile(self.js_file)
+                title: this.title
+              , style:  ADDON.readFile(this.css_file)
+              , script: ADDON.readFile(this.js_file)
               , body:   SIPR.template.testsuite(data)
             })
         );
     };
 
     if(!window.SIPR){
-        window.SIPR = self;
+        window.SIPR = new PrettyReport();
     }
 }(window));
