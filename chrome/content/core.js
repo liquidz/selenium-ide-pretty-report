@@ -86,19 +86,6 @@
         return(result);
     };
 
-
-    self.foo = function(){
-        var testcases = IDE.collectTestCaseCommands(IDE.getTestCase());
-        var x = _.map(testcases, IDE.parseTestCase);
-        _.each(x, function(y){
-            if(y.rollup){
-                _.each(y.rollup.commands, function(c){
-                    alert(c.command + ", " + c.target + ", " + c.value);
-                });
-            }
-        });
-    };
-
     PrettyReport.prototype.getTestCaseResultContent = function(testcase, no_summary){
         var title    = IDE.getTestCaseTitle(testcase)
           , tests    = _.map(IDE.collectTestCaseCommands(testcase), IDE.parseTestCase)

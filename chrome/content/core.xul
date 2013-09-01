@@ -9,20 +9,15 @@
 
     <menupopup id="file-popup">
         <menuseparator id="si_prettyreport_separator" insertbefore="closeMenuSeparator"/>
-        <menuitem id="si_prettyreport_sample"
-                  label="SAMPLE!!"
-                  insertbefore="closeMenuSeparator"
-                  oncommand="window.SIPR.foo()" />
 
-        <menuitem id="si_prettyreport_export_test_case_results"
-                  label="Export pretty test case results..."
-                  insertbefore="closeMenuSeparator"
-                  oncommand="window.SIPR.exportTestCaseResults()" />
-
-        <menuitem id="si_prettyreport_export_test_suite_results"
-                  label="Export pretty test suite results..."
-                  insertbefore="closeMenuSeparator"
-                  oncommand="window.SIPR.exportTestSuiteResult()" />
+        <menu id="si_prettyreport_export" label="Pretty Report" insertbefore="closeMenuSeparator">
+            <menupopup>
+                <menuitem label="Export test case"
+                          oncommand="window.SIPR.exportTestCaseResults()" />
+                <menuitem label="Export test suite"
+                          oncommand="window.SIPR.exportTestSuiteResult()" />
+            </menupopup>
+        </menu>
     </menupopup>
 
 </overlay>
