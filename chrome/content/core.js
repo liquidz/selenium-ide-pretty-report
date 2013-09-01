@@ -90,8 +90,8 @@
 
 
     self.foo = function(){
-        var testcases = IDE_UTIL.collectTestCaseCommands(IDE_UTIL.getTestCase());
-        var x = _.map(testcases, IDE_UTIL.parseTestCase);
+        var testcases = IDE.collectTestCaseCommands(IDE.getTestCase());
+        var x = _.map(testcases, IDE.parseTestCase);
         _.each(x, function(y){
             if(y.rollup){
                 _.each(y.rollup.commands, function(c){
@@ -102,8 +102,8 @@
     };
 
     PrettyReport.prototype.getTestCaseResultContent = function(testcase, no_summary){
-        var title    = IDE_UTIL.getTestCaseTitle(testcase)
-          , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
+        var title    = IDE.getTestCaseTitle(testcase)
+          , tests    = _.map(IDE.collectTestCaseCommands(testcase), IDE.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
           , summary  = SIPR.template.summary({
                 title     : 'Test Case Summary'
@@ -139,13 +139,13 @@
                 title  : this.title
               , style  : ADDON.readFile(this.css_file)
               , script : ADDON.readFile(this.js_file)
-              , body   : this.getTestCaseResultContent(IDE_UTIL.getTestCase())
+              , body   : this.getTestCaseResultContent(IDE.getTestCase())
             })
         );
     };
 
     PrettyReport.prototype.exportTestSuiteResult = function(){
-        var suite    = IDE_UTIL.getTestSuite()
+        var suite    = IDE.getTestSuite()
           , contents = _.map(suite, _.bind(function(test){
                 return(this.getTestCaseResultContent(test.content, false)); }, this))
           , commands = _.chain(suite).reduce(function(res, test){

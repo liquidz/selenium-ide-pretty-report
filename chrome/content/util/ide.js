@@ -1,6 +1,7 @@
 (function(window, undefined){
-    var self = {};
+    function IDE(){}
 
+    // PRIVATE FUNCTION >>>>>
     var parseComment = function(src){
         if(src.match(/<!--\s*(.+?)\s*-->/)){
             return({type: "comment", value: RegExp.$1});
@@ -14,33 +15,36 @@
         }
         return(src);
     };
+    // <<<<< PRIVATE FUNCTION
 
-    self.collectTestCaseCommands = function(testcase){
-        return(testcase.commands.reduce(function(res, cmd){
-            return(res.concat(cmd));
-        }, []));
-    };
-
-    var expandRollupRules = function(cmd){
+    IDE.prototype.expandRollupRules = function(cmd){
         var rollup = null;
         if(cmd.isRollup && cmd.isRollup()){
             var rule = Editor.rollupManager.getRollupRule(cmd.target);
             if(rule !== null){
                 rollup = {
-                    name:        rule.name
-                  , description: rule.description
-                  , args:        rule.args
-                  , commands:    rule.getExpandedCommands(cmd.value).map(self.parseTestCase)
+                    name        : rule.name
+                  , description : rule.description
+                  , args        : rule.args
+                  , commands    : rule.getExpandedCommands(cmd.value)
                 };
             }
         }
         return(rollup);
     };
 
-    self.parseTestCase = function(cmd){
+    IDE.prototype.collectTestCaseCommands = function(testcase){
+        return(testcase.commands.reduce(function(res, cmd){
+            return(res.concat(cmd));
+        }, []));
+    };
+
+
+    IDE.prototype.parseTestCase = function(cmd){
         var src = getSourceForCommand(cmd)
           , res = null
           ;
+
         if(src.indexOf("<!--") !== -1){
             res = parseComment(src);
         } else {
@@ -48,26 +52,29 @@
         }
 
         // rollup
-        res.rollup = expandRollupRules(cmd);
+        res.rollup = IDE.prototype.expandRollupRules(cmd);
+        if(res.rollup){
+            res.rollup.commands = res.rollup.commands.map(IDE.prototype.parseTestCase);
+        }
         // result
         res.result = (cmd.result !== undefined) ? cmd.result : "undefined";
-        res.result = (res.result === 'passed') ? 'done' : res.result;
+        res.result = (res.result === 'passed')  ? 'done'     : res.result;
 
         return(res);
     };
 
-    self.getTestCase = function(){
+    IDE.prototype.getTestCase = function(){
         return(window.editor.app.getTestCase());
     };
 
-    self.getTestCaseTitle = function(testcase){
+    IDE.prototype.getTestCaseTitle = function(testcase){
         if(testcase === undefined){
-            testcase = window.editor.app.getTestCase();
+            testcase = this.getTestCase();
         }
         return(testcase.getTitle());
     };
 
-    self.getTestSuite = function(){
+    IDE.prototype.getTestSuite = function(){
         var app   = window.editor.app
           , suite = app.getTestSuite()
           ;
@@ -87,7 +94,7 @@
     };
 
     if(!window.IDE_UTIL){
-        window.IDE_UTIL = self;
+        window.IDE = new IDE();
     }
 
 }(window));
