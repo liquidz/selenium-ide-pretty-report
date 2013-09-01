@@ -50,7 +50,6 @@
 
     PrettyReport.prototype.groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
-          , heading  = []
           , tmp      = _.clone(init_val)
           , result   = []
           ;
@@ -58,15 +57,17 @@
         // grouping
         _.each(testcase, _.bind(function(cmd){
             if(this.isHeadingCommand(cmd)){
-                // heading comment
-                heading = heading.concat({type: 'heading', title: cmd.value})
+                if(tmp.commands.length !== 0){
+                    result.push(tmp);
+                    tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
+                }
+                result.push({type: 'heading', title: cmd.value});
             } else if(this.isCommentCommand(cmd)){
                 // normal comment
                 if(tmp.commands.length === 0){
                     tmp.title = cmd.value;
                 } else {
                     result.push(tmp);
-                    if(_.isEmpty(heading) === false){ result = result.concat(heading); heading = []; }
                     tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
                 }
             } else {
@@ -75,10 +76,7 @@
             }
         }, this));
 
-        if(tmp.commands.length !== 0){
-            result.push(tmp);
-            if(_.isEmpty(heading) === false){ result = result.concat(heading); }
-        }
+        if(tmp.commands.length !== 0){ result.push(tmp); }
 
         // add result
         result = _.map(result, _.bind(function(test){
