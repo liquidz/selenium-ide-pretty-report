@@ -77,7 +77,7 @@
         var title    = IDE_UTIL.getTestCaseTitle(testcase)
           , tests    = _.map(IDE_UTIL.collectTestCaseCommands(testcase), IDE_UTIL.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
-          , summary  = SIPR.formatter.summary({
+          , summary  = SIPR.template.summary({
                 title: 'Test Case Summary'
               , result: getCommandsTotalResult(commands)
               , done:      _.filter(commands, _.partial(resultEquals, 'done')).length
@@ -93,7 +93,7 @@
         // convert heading title
         _.map(data.tests, function(test){
             if(test.type === 'heading' && test.title.match(/^(#+)\s*(.+)$/)){
-                test.title = SIPR.formatter.heading({
+                test.title = SIPR.template.heading({
                     n: RegExp.$1.length
                   , value: RegExp.$2
                 });
@@ -101,13 +101,13 @@
             return(test);
         });
 
-        return(SIPR.formatter.testcase(data));
+        return(SIPR.template.testcase(data));
     };
 
     self.exportTestCaseResults = function(){
         ADDON.writeFile(
             ADDON.openFileDialog("title")
-          , SIPR.formatter.html({
+          , SIPR.template.html({
                 title:  self.title
               , style:  ADDON.readFile(self.css_file)
               , script: ADDON.readFile(self.js_file)
@@ -123,7 +123,7 @@
           , commands = _.chain(suite).reduce(function(res, test){
                 return(res.concat(test.content.commands));
             }, []).filter(function(x){ return(x.type === 'command'); }).value()
-          , summary  = SIPR.formatter.summary({
+          , summary  = SIPR.template.summary({
                 title:      'Test Suite Summary'
               , result:     getCommandsTotalResult(commands)
               , total:      commands.length
@@ -136,11 +136,11 @@
 
         ADDON.writeFile(
             ADDON.openFileDialog("title")
-          , SIPR.formatter.html({
+          , SIPR.template.html({
                 title: self.title
               , style:  ADDON.readFile(self.css_file)
               , script: ADDON.readFile(self.js_file)
-              , body:   SIPR.formatter.testsuite(data)
+              , body:   SIPR.template.testsuite(data)
             })
         );
     };

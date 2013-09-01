@@ -1,21 +1,21 @@
 (function(window, undefined){
 
-    var tplFile = function(name){
-        return(ADDON.readFile("resource://si_prettyreport/template/" + name));
+    function PrettyReportTemplate(){
+        this.template_fn = {
+            html:      _.template(this.tplFile('html5.html'))
+          , testcase:  _.template(this.tplFile('testcase.html'))
+          , testsuite: _.template(this.tplFile('testsuite.html'))
+          , now:       _.template(this.tplFile('now.html'))
+          , summary:   _.template(this.tplFile('summary.html'))
+          , heading:   _.template(this.tplFile('heading.html'))
+        };
     }
 
-    var template = {
-        html:      _.template(tplFile('html5.html'))
-      , testcase:  _.template(tplFile('testcase.html'))
-      , testsuite: _.template(tplFile('testsuite.html'))
-      , now:       _.template(tplFile('now.html'))
-      , summary:   _.template(tplFile('summary.html'))
-      , heading:   _.template(tplFile('heading.html'))
+    PrettyReportTemplate.prototype.tplFile = function(name){
+        return(ADDON.readFile("resource://si_prettyreport/template/" + name));
     };
 
-    var self = {};
-
-    var getCurrentTime = function(){
+    PrettyReportTemplate.prototype.getCurrentTime = function(){
         var d    = new Date()
           , data = {
               year: d.getFullYear()
@@ -30,25 +30,29 @@
         if(data.hour < 10){ data.hour = '0' + data.hour; }
         if(data.min < 10){  data.min  = '0' + data.min; }
         if(data.sec < 10){  data.sec  = '0' + data.sec; }
-        return(template.now(data));
+        return(this.template_fn.now(data));
     };
 
-    self.html = function(data){
-        data.now = getCurrentTime();
-        return(template.html(data));
+    PrettyReportTemplate.prototype.html = function(data){
+        data.now = this.getCurrentTime();
+        return(this.template_fn.html(data));
     }
 
-    self.testcase  = template.testcase;
-    self.testsuite = template.testsuite;
+    PrettyReportTemplate.prototype.testcase  = function(data){ return(this.template_fn.testcase(data)); };
+    PrettyReportTemplate.prototype.testsuite = function(data){ return(this.template_fn.testsuite); };
 
-    self.summary = function(data){
-        data.now = getCurrentTime();
-        return(template.summary(data));
+    PrettyReportTemplate.prototype.summary = function(data){
+        data.now = this.getCurrentTime();
+        return(this.template_fn.summary(data));
     };
 
-    self.heading = template.heading;
+    PrettyReportTemplate.prototype.heading = function(data){ return(this.template_fn.heading); };
 
-    if(!window.SIPR.formatter){
-        window.SIPR.formatter = self;
+    if(!window.SIPR){
+        window.SIPR = {};
     }
+    if(!window.SIPR.template){
+        window.SIPR.template = new PrettyReportTemplate();
+    }
+
 }(window));
