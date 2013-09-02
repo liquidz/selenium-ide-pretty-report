@@ -1,9 +1,9 @@
 /* =COMMON */
-body { color: #012D3D; background: #F9FCFC; }
+body { color: #012D3D; }
 a    { color: #04c; }
 
 /* =CONTENT */
-div.content { margin-left: 2em; }
+div.content { margin-left: 7%; }
 
 /* =SUMMARY */
 div.summary h2.done      { color: #38AD9E; }
@@ -38,3 +38,4 @@ div.footer {
     text-align:   right;
     font-size:    80%;
 }
+
