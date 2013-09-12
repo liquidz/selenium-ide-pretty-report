@@ -13,9 +13,9 @@
         <menu id="si_prettyreport_export" label="Pretty Report" insertbefore="closeMenuSeparator">
             <menupopup>
                 <menuitem label="Export test case"
-                          oncommand="window.SIPR.exportTestCaseResults()" />
+                          oncommand="window.UOCHAN.PrettyReport.exportTestCaseResults()" />
                 <menuitem label="Export test suite"
-                          oncommand="window.SIPR.exportTestSuiteResult()" />
+                          oncommand="window.UOCHAN.PrettyReport.exportTestSuiteResult()" />
             </menupopup>
         </menu>
     </menupopup>

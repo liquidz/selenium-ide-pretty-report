@@ -87,10 +87,10 @@
     };
 
     PrettyReport.prototype.getTestCaseResultContent = function(testcase, no_summary){
-        var title    = IDE.getTestCaseTitle(testcase)
-          , tests    = _.map(IDE.collectTestCaseCommands(testcase), IDE.parseTestCase)
+        var title    = UOCHAN.ide.getTestCaseTitle(testcase)
+          , tests    = _.map(UOCHAN.ide.collectTestCaseCommands(testcase), UOCHAN.ide.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
-          , summary  = SIPR.template.summary({
+          , summary  = UOCHAN.PrettyReport.template.summary({
                 title     : 'Test Case Summary'
               , result    : this.getCommandsTotalResult(commands)
               , done      : _.filter(commands, this.isDoneCommand).length
@@ -106,7 +106,7 @@
         // convert heading title
         _.map(data.tests, function(test){
             if(test.type === 'heading' && test.title.match(/^(#+)\s*(.+)$/)){
-                test.title = SIPR.template.heading({
+                test.title = UOCHAN.PrettyReport.template.heading({
                     n: RegExp.$1.length
                   , value: RegExp.$2
                 });
@@ -114,29 +114,29 @@
             return(test);
         });
 
-        return(SIPR.template.testcase(data));
+        return(UOCHAN.PrettyReport.template.testcase(data));
     };
 
     PrettyReport.prototype.exportTestCaseResults = function(){
-        ADDON.writeFile(
-            ADDON.openFileDialog("title")
-          , SIPR.template.html({
+        UOCHAN.addon.writeFile(
+            UOCHAN.addon.openFileDialog("title")
+          , UOCHAN.PrettyReport.template.html({
                 title  : this.title
-              , style  : ADDON.readFile(this.css_file)
-              , script : ADDON.readFile(this.js_file)
-              , body   : this.getTestCaseResultContent(IDE.getTestCase())
+              , style  : UOCHAN.addon.readFile(this.css_file)
+              , script : UOCHAN.addon.readFile(this.js_file)
+              , body   : this.getTestCaseResultContent(UOCHAN.ide.getTestCase())
             })
         );
     };
 
     PrettyReport.prototype.exportTestSuiteResult = function(){
-        var suite    = IDE.getTestSuite()
+        var suite    = UOCHAN.ide.getTestSuite()
           , contents = _.map(suite, _.bind(function(test){
                 return(this.getTestCaseResultContent(test.content, false)); }, this))
           , commands = _.chain(suite).reduce(function(res, test){
                 return(res.concat(test.content.commands));
             }, []).filter(function(x){ return(x.type === 'command'); }).value()
-          , summary  = SIPR.template.summary({
+          , summary  = UOCHAN.PrettyReport.template.summary({
                 title     : 'Test Suite Summary'
               , result    : this.getCommandsTotalResult(commands)
               , total     : commands.length
@@ -146,18 +146,21 @@
           , data     = { suite: contents, summary: summary }
           ;
 
-        ADDON.writeFile(
-            ADDON.openFileDialog("title")
-          , SIPR.template.html({
+        UOCHAN.addon.writeFile(
+            UOCHAN.addon.openFileDialog("title")
+          , UOCHAN.PrettyReport.template.html({
                 title  : this.title
-              , style  : ADDON.readFile(this.css_file)
-              , script : ADDON.readFile(this.js_file)
-              , body   : SIPR.template.testsuite(data)
+              , style  : UOCHAN.addon.readFile(this.css_file)
+              , script : UOCHAN.addon.readFile(this.js_file)
+              , body   : UOCHAN.PrettyReport.template.testsuite(data)
             })
         );
     };
 
-    if(!window.SIPR){
-        window.SIPR = new PrettyReport();
+    if(!window.UOCHAN){
+        window.UOCHAN = {};
+    }
+    if(!window.UOCHAN.PrettyReport){
+        window.UOCHAN.PrettyReport = new PrettyReport();
     }
 }(window));

@@ -2,8 +2,11 @@
 body { color: #012D3D; }
 a    { color: #04c; }
 
+/* =MENU */
+.menu { border-bottom: 1px solid #cbcbcb; }
+
 /* =CONTENT */
-div.content { margin-left: 7%; }
+.content { width: 80%; margin: 0 auto; }
 
 /* =SUMMARY */
 div.summary h2.done      { color: #38AD9E; }

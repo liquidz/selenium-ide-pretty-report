@@ -49,8 +49,10 @@
         );
     };
 
-    if(!window.ADDON){
-        //window.ADDON_UTIL = self;
-        window.ADDON = new Addon();
+    if(!window.UOCHAN){
+        window.UOCHAN = {};
+    }
+    if(!window.UOCHAN.addon){
+        window.UOCHAN.addon = new Addon();
     }
 }(window));

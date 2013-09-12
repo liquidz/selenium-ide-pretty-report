@@ -93,8 +93,12 @@
         }));
     };
 
-    if(!window.IDE_UTIL){
-        window.IDE = new IDE();
+    if(!window.UOCHAN){
+        window.UOCHAN = {};
+    }
+
+    if(!window.UOCHAN.ide){
+        window.UOCHAN.ide = new IDE();
     }
 
 }(window));

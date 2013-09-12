@@ -12,7 +12,7 @@
     }
 
     PrettyReportTemplate.prototype.tplFile = function(name){
-        return(ADDON.readFile("resource://si_prettyreport/template/" + name));
+        return(UOCHAN.addon.readFile("resource://si_prettyreport/template/" + name));
     };
 
     PrettyReportTemplate.prototype.getCurrentTime = function(){
@@ -48,11 +48,13 @@
 
     PrettyReportTemplate.prototype.heading = function(data){ return(this.template_fn.heading(data)); };
 
-    if(!window.SIPR){
-        window.SIPR = {};
+    if(!window.UOCHAN){
+        window.UOCHAN = {};
     }
-    if(!window.SIPR.template){
-        window.SIPR.template = new PrettyReportTemplate();
+    if(!window.UOCHAN.PrettyReport){
+        window.UOCHAN.PrettyReport = {};
     }
-
+    if(!window.UOCHAN.PrettyReport.template){
+        window.UOCHAN.PrettyReport.template = new PrettyReportTemplate();
+    }
 }(window));
