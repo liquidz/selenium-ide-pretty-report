@@ -1,4 +1,5 @@
 (function(window, undefined){
+    var _ = window.UOCHAN._;
 
     function PrettyReportTemplate(){
         this.template_fn = {
