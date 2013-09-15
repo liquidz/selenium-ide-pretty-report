@@ -3,10 +3,15 @@ body { color: #012D3D; }
 a    { color: #04c; }
 
 /* =MENU */
-.menu { border-bottom: 1px solid #cbcbcb; }
+.menu {
+    border-bottom: 1px solid #cbcbcb;
+    width: 100%;
+    position: fixed;
+    top: 0; left: 0;
+}
 
 /* =CONTENT */
-.content { width: 80%; margin: 0 auto; }
+.content { width: 80%; margin: 50px auto 0 auto; }
 
 /* =SUMMARY */
 div.summary h2.done      { color: #38AD9E; }
