@@ -87,17 +87,25 @@
         return(result);
     };
 
+    PrettyReport.prototype.getSummary = function(title, commands){
+        return(UOCHAN.PrettyReport.template.summary(
+            _.extend(
+                { title     : title
+                , result    : this.getCommandsTotalResult(commands)
+                , done      : _.filter(commands, this.isDoneCommand).length
+                , failed    : _.filter(commands, this.isFailedCommand).length
+                , undefined : _.filter(commands, this.isUndefinedCommand).length
+                , total     : commands.length}
+              , UOCHAN.PrettyReport.template.getCurrentTime()
+            )
+        ));
+    };
+
     PrettyReport.prototype.getTestCaseResultContent = function(testcase, no_summary){
         var title    = UOCHAN.ide.getTestCaseTitle(testcase)
           , tests    = _.map(UOCHAN.ide.collectTestCaseCommands(testcase), UOCHAN.ide.parseTestCase)
           , commands = _.filter(tests, function(x){ return(x.type === 'command'); })
-          , summary  = UOCHAN.PrettyReport.template.summary({
-                title     : 'Test Case Summary'
-              , result    : this.getCommandsTotalResult(commands)
-              , done      : _.filter(commands, this.isDoneCommand).length
-              , failed    : _.filter(commands, this.isFailedCommand).length
-              , undefined : _.filter(commands, this.isUndefinedCommand).length
-              , total     : commands.length})
+          , summary  = this.getSummary('Test Case Summary', commands)
           , data     = {
                 title     : title
               , tests     : this.groupTestCase(tests)
@@ -121,7 +129,7 @@
     PrettyReport.prototype.exportTestCaseResults = function(){
         UOCHAN.addon.writeFile(
             UOCHAN.addon.openFileDialog("title")
-          , UOCHAN.PrettyReport.template.html({
+          , UOCHAN.PrettyReport.template.html5({
                 title  : this.title
               , style  : UOCHAN.addon.readFile(this.css_file)
               , script : UOCHAN.addon.readFile(this.js_file)
@@ -137,19 +145,13 @@
           , commands = _.chain(suite).reduce(function(res, test){
                 return(res.concat(test.content.commands));
             }, []).filter(function(x){ return(x.type === 'command'); }).value()
-          , summary  = UOCHAN.PrettyReport.template.summary({
-                title     : 'Test Suite Summary'
-              , result    : this.getCommandsTotalResult(commands)
-              , total     : commands.length
-              , done      : _.filter(commands, this.isDoneCommand).length
-              , failed    : _.filter(commands, this.isFailedCommand).length
-              , undefined : _.filter(commands, this.isUndefinedCommand).length })
+          , summary = this.getSummary('Test Suite Summary', commands)
           , data     = { suite: contents, summary: summary }
           ;
 
         UOCHAN.addon.writeFile(
             UOCHAN.addon.openFileDialog("title")
-          , UOCHAN.PrettyReport.template.html({
+          , UOCHAN.PrettyReport.template.html5({
                 title  : this.title
               , style  : UOCHAN.addon.readFile(this.css_file)
               , script : UOCHAN.addon.readFile(this.js_file)
