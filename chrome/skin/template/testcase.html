@@ -5,7 +5,7 @@
     <div class="block">
     <% _.each(tests, function(test){ %>
         <% if(test.type === "heading"){ %>
-            <%= test.title %>
+            <%= test.html %>
         <% } else { %>
             <div class="command-group <%= test.result %>">
                 <p>

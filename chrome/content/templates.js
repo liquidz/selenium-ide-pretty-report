@@ -2,7 +2,7 @@
     var _ = window.UOCHAN._;
 
     function PrettyReportTemplate(){
-        this.templateFiles = ['html5.html', 'testcase.html', 'testsuite.html', 'now.html', 'summary.html', 'heading.html'];
+        this.templateFiles = ['html5.html', 'testcase.html', 'testsuite.html', 'summary.html', 'heading.html'];
 
         // expand template functions
         _.each(this.templateFiles, _.bind(function(filename){
@@ -10,7 +10,7 @@
               , fnName  = filename.split('.')[0]
               ;
 
-            this[fnName] = _.template(content)
+            this[fnName] = _.template(content);
         }, this));
     }
 

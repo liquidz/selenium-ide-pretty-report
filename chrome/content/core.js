@@ -8,6 +8,9 @@
     };
 
     // PRIVATE FUNCTIONS >>>>>
+
+    var existy = function(x){ return(x !== null); };
+
     var resultEquals = function(result, command){
         return(command.result === result);
     };
@@ -48,7 +51,6 @@
         }
     };
 
-
     PrettyReport.prototype.groupTestCase = function(testcase){
         var init_val = {title: '(no title)', result: 'done', type: 'command', commands: []}
           , tmp      = _.clone(init_val)
@@ -62,7 +64,7 @@
                     result.push(tmp);
                     tmp = _.extend(_.clone(init_val), {title: cmd.value, commands: []});
                 }
-                result.push({type: 'heading', title: cmd.value});
+                result.push({type: 'heading', title: cmd.value, id: _.uniqueId('heading')});
             } else if(this.isCommentCommand(cmd)){
                 // normal comment
                 if(tmp.commands.length === 0){
@@ -112,11 +114,15 @@
               , summary   : (no_summary === undefined) ? summary : ""}
           ;
 
-        // convert heading title
-        _.map(data.tests, function(test){
+        //data.headings = _.filter(data.tests, function(t){
+        //    return(t.type === 'heading')
+        //});
+
+        data.test = _.map(data.tests, function(test){
             if(test.type === 'heading' && test.title.match(/^(#+)\s*(.+)$/)){
-                test.title = UOCHAN.PrettyReport.template.heading({
-                    n: RegExp.$1.length
+                test.html = UOCHAN.PrettyReport.template.heading({
+                    n    : RegExp.$1.length
+                  , id   : test.id
                   , value: RegExp.$2
                 });
             }
