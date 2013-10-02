@@ -4,7 +4,7 @@
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/lib/underscore-min.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/util/addon.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/util/ide.js" />
-    <script type="application/x-javascript" src="chrome://si_prettyreport/content/util/underscore.js" />
+    <script type="application/x-javascript" src="chrome://si_prettyreport/content/util/uochan_underscore.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/core.js" />
     <script type="application/x-javascript" src="chrome://si_prettyreport/content/templates.js" />
 
