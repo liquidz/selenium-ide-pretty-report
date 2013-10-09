@@ -2,9 +2,10 @@
     var _ = window.UOCHAN._;
 
     function PrettyReport(){
-        this.title    = "Selenium IDE: Pretty Report";
-        this.css_file = "resource://si_prettyreport/main.css";
-        this.js_file  = "resource://si_prettyreport/main.js";
+        this.title     = "Selenium IDE: Pretty Report";
+        this.css_file  = "resource://si_prettyreport/main.css";
+        this.js_file   = "resource://si_prettyreport/main.js";
+        this.js_jquery = "resource://si_prettyreport/js/jquery/jquery-2.0.3.min.js";
     };
 
     // PRIVATE FUNCTIONS >>>>>
@@ -140,6 +141,7 @@
               , style  : UOCHAN.addon.readFile(this.css_file)
               , script : UOCHAN.addon.readFile(this.js_file)
               , body   : this.getTestCaseResultContent(UOCHAN.ide.getTestCase())
+              , jquery : UOCHAN.addon.readFile(this.js_jquery)
             })
         );
     };
@@ -162,6 +164,7 @@
               , style  : UOCHAN.addon.readFile(this.css_file)
               , script : UOCHAN.addon.readFile(this.js_file)
               , body   : UOCHAN.PrettyReport.template.testsuite(data)
+              , jquery : UOCHAN.addon.readFile(this.js_jquery)
             })
         );
     };
